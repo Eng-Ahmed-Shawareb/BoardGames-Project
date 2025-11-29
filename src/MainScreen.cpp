@@ -23,6 +23,10 @@ void MainScreen::implementUserChoice(UserChoice choice){
         system("clear");
         PlayGameFunctions::playFourInRowGame();
         break;
+    case UserChoice::MEMORYGAME : 
+        system("clear");
+        PlayGameFunctions::playMemoryGame();
+        break;
     }
 }
 
@@ -34,6 +38,7 @@ void MainScreen::printMainMenuScreen(){
     cout << "\t\t\t\t\t  " << "[2] Numerical Game." << endl;
     cout << "\t\t\t\t\t  " << "[3] SUS Game." << endl;
     cout << "\t\t\t\t\t  " << "[4] Four In Row Game." << endl;
+    cout << "\t\t\t\t\t  " << "[5] XO Memory Game." << endl;
     cout << "\t\t\t\t" << "=============================================" << endl;
 }
 
@@ -45,10 +50,10 @@ void MainScreen::startBoardGameProgram(){
         system("clear");
         int choice;
         printMainMenuScreen();
-        cout << "\t\t\t\t" << "     Please enter your choice ? [1 : 4] ? " << endl;
+        cout << "\t\t\t\t" << "     Please enter your choice ? [1 : 5] ? " << endl;
         cin >> choice;
-        while( choice > 4 || choice < 1 ){
-            cout << "Invalid choice. please enter another one ? [1 : 4] ? " << endl;
+        while( choice > 5 || choice < 1 ){
+            cout << "Invalid choice. please enter another one ? [1 : 5] ? " << endl;
             cin >> choice;
         }
         implementUserChoice((UserChoice)choice);
