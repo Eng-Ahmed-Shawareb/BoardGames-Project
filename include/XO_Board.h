@@ -14,7 +14,7 @@ public:
 
     bool is_win(Player<char>* player);
 
-    bool is_lose(Player<char>*) { return false; };
+    bool is_lose(Player<char>*);
 
     bool is_draw(Player<char>* player);
     
