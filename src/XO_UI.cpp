@@ -8,7 +8,7 @@
 XO_UI::XO_UI() : UI<char>("Weclome to FCAI X-O Game by Dr El-Ramly", 3) {}
 
 
-int mini_max(Board<char>* current_board , int depth , bool is_max , char AI_symbol , char human_symbol){
+int XO_UI::min_max(Board<char>* current_board , int depth , bool is_max , char AI_symbol , char human_symbol){
     
     //base case
     Player<char>AI_Player("AI" , AI_symbol , PlayerType::COMPUTER);
@@ -33,7 +33,7 @@ int mini_max(Board<char>* current_board , int depth , bool is_max , char AI_symb
                 if( current_board->get_cell(i , j) == '.' ){
                     Move<char> current_move(i , j , AI_symbol);
                     current_board->update_board(&current_move);
-                    int score = mini_max(current_board , depth+1 , false , AI_symbol , human_symbol);
+                    int score = min_max(current_board , depth+1 , false , AI_symbol , human_symbol);
                     Move<char> undo_move(i , j , 0);
                     current_board->update_board(&undo_move);
                     max_score = max(score , max_score);
@@ -50,7 +50,7 @@ int mini_max(Board<char>* current_board , int depth , bool is_max , char AI_symb
                 if( current_board->get_cell(i , j) == '.' ){
                     Move<char> current_move(i , j , human_symbol);
                     current_board->update_board(&current_move);
-                    int score = mini_max(current_board , depth+1 , true , AI_symbol , human_symbol);
+                    int score = min_max(current_board , depth+1 , true , AI_symbol , human_symbol);
                     Move<char> undo_move(i , j , 0);
                     current_board->update_board(&undo_move);
                     min_score = min(score , min_score);
@@ -60,7 +60,7 @@ int mini_max(Board<char>* current_board , int depth , bool is_max , char AI_symb
     }
 }
 
-Move<char>* get_AI_move(Player<char>* AI_player){
+Move<char>* XO_UI::get_AI_move(Player<char>* AI_player){
     Board<char>* test_board = new X_O_Board();
 
     *test_board = *AI_player->get_board_ptr();
@@ -75,7 +75,7 @@ Move<char>* get_AI_move(Player<char>* AI_player){
                 Move<char> current_move(i , j , AI_player->get_symbol());
                 test_board->update_board(&current_move);
 
-                int score = mini_max(test_board , 0 , false , AI_player->get_symbol() , ( AI_player->get_symbol() == 'X' ) ? 'O' : 'X');
+                int score = min_max(test_board , 0 , false , AI_player->get_symbol() , ( AI_player->get_symbol() == 'X' ) ? 'O' : 'X');
                 
                 Move<char>undo_move(i , j , 0);
                 test_board->update_board(&undo_move);
@@ -108,9 +108,6 @@ Move<char>* XO_UI::get_move(Player<char>* player) {
         cin >> x >> y;
     }
     else if (player->get_type() == PlayerType::COMPUTER) {
-        /*x = rand() % player->get_board_ptr()->get_rows();
-        y = rand() % player->get_board_ptr()->get_columns();*/
-
         return get_AI_move(player);
     }
     return new Move<char>(x, y, player->get_symbol());

@@ -47,14 +47,15 @@ pair< int , int > SUS_Board::calculate_players_score(){
         score.first++ : score.second++;
     }
     if( diagonal2 == "SUS" ){
-        ( order_of_moves[1][1] > order_of_moves[2][0] && order_of_moves[1][1] > order_of_moves[2][0] ) ? score.first++ : score.second++;
+        ( order_of_moves[1][1] > order_of_moves[2][0] && order_of_moves[1][1] > order_of_moves[2][0] ) ? 
+        score.first++ : score.second++;
     }
 
     return score;
 }
 
 bool SUS_Board::valid_move( int x , int y ){
-    return ( x >= 0 && x < rows && y >= 0 && y < columns && board[x][y] == Blank_Symbol );
+    return ( x >= 0 && x < rows && y >= 0 && y < columns );
 }
 
 bool SUS_Board::is_win( Player<char>* player ){
@@ -102,10 +103,19 @@ bool SUS_Board::update_board( Move<char>* move ){
     int x = move->get_x();
     int y = move->get_y();
     char symbol = move->get_symbol();
+
     if( valid_move(x , y) ){
-        board[x][y] = toupper(symbol);
-        n_moves++;
-        order_of_moves[x][y] = n_moves;
+        if( symbol == 0 ){
+            n_moves--;
+            board[x][y] = Blank_Symbol;
+            order_of_moves[x][y] = 0;
+        }else{
+            if( board[x][y] != Blank_Symbol )
+                return false;  
+            board[x][y] = toupper(symbol);
+            n_moves++;
+            order_of_moves[x][y] = n_moves;
+        }
         return true;
     }
     return false;
