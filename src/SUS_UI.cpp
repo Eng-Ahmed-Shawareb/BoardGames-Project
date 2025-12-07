@@ -6,7 +6,7 @@
 
 SUS_UI::SUS_UI() : UI("Welcome to my SUS game!" , 3) {};
 
-int min_max(SUS_Board* current_board ,bool is_max , char AI_symbol , char human_symbol){
+int SUS_UI::min_max(SUS_Board* current_board ,bool is_max , char AI_symbol , char human_symbol){
     //base case
     Player<char>AI_player("AI" , AI_symbol , PlayerType::COMPUTER);
     Player<char>human_player("human" , human_symbol , PlayerType::HUMAN);
@@ -78,7 +78,7 @@ int min_max(SUS_Board* current_board ,bool is_max , char AI_symbol , char human_
     }
 }
 
-Move<char>* get_AI_move(Player<char>* player){
+Move<char>* SUS_UI::get_AI_move(Player<char>* player){
     SUS_Board* test_board = new SUS_Board();
     SUS_Board* source_board = dynamic_cast<SUS_Board*>(player->get_board_ptr());
     if(source_board) {

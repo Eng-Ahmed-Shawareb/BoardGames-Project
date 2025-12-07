@@ -25,6 +25,17 @@ bool FourInRow_Board::update_board(Move<char>* move){
     int x = 0;
     int y = move->get_y();
     char symbol = move->get_symbol();
+
+    if( symbol == 0 ){
+        for(int i = 0 ; i < rows ; ++i){
+            if( board[i][y] != Blank_Symbol ){
+                board[i][y] = Blank_Symbol;
+                n_moves--;
+                return true;
+            }
+        }
+    }
+
     if( valid_move( y ) ){
         for(int i = 5 ; i >= 0 ; --i){
             if( board[i][y] == Blank_Symbol ){
@@ -50,7 +61,7 @@ bool FourInRow_Board::is_win(Player<char>* player){
             if( board[i][j] == player_symbol ){
                 string s = "";
                 for(int u = j ; u < j + 4 ; ++u){
-                    if( u < rows ){
+                    if( u < columns ){
                         s += board[i][u];
                     }
                 }
@@ -65,7 +76,7 @@ bool FourInRow_Board::is_win(Player<char>* player){
                 if( s == four_symbol ) 
                     return true;
                 s = "";
-                for(int u = i , v = j ; u >= i - 3 , v < j + 4 ; --u , ++v){
+                for(int u = i , v = j ; u >= i - 3 && v < j + 4 ; --u , ++v){
                     if( u >= 0 && v < columns ){
                         s += board[u][v];
                     }
@@ -73,7 +84,7 @@ bool FourInRow_Board::is_win(Player<char>* player){
                 if( s == four_symbol ) 
                     return true;
                 s = "";
-                for(int u = i , v = j ; u >= i - 3 , v >= j - 3 ; --u , --v){
+                for(int u = i , v = j ; u >= i - 3 && v >= j - 3 ; --u , --v){
                     if( u >= 0 && v >= 0){
                         s += board[u][v];
                     }
