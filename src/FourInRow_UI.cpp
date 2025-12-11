@@ -46,7 +46,7 @@ Player<char>** FourInRow_UI::setup_players(){
     return players;
 }
 
-int FourInRow_UI::min_max(Board<char>* current_board , bool is_max , int depth , char AI_symbol , char human_symbol){
+int FourInRow_UI::min_max(Board<char>* current_board , bool is_max , int depth , int alpha , int beta , char AI_symbol , char human_symbol){
     //base case
     Player<char>AI_player("AI" , AI_symbol , PlayerType::COMPUTER);
     AI_player.set_board_ptr(current_board);
@@ -54,16 +54,16 @@ int FourInRow_UI::min_max(Board<char>* current_board , bool is_max , int depth ,
     human_player.set_board_ptr(current_board);
 
     if( current_board->is_win(&AI_player) ){
-        return 10;
+        return 10 + (100 - depth);
     }
     if( current_board->is_win(&human_player) ){
-        return -10;
+        return -10 - (100 - depth);
     }
     if( current_board->is_draw(&AI_player) ){
         return 0;
     }
 
-    if( depth > 5 ) 
+    if( depth > 8 ) 
         return 0;
 
     //transition
@@ -76,12 +76,18 @@ int FourInRow_UI::min_max(Board<char>* current_board , bool is_max , int depth ,
             Move<char> current_move(0 , i , AI_symbol);
             current_board->update_board(&current_move);
 
-            int score = min_max(current_board , false , depth + 1 , AI_symbol , human_symbol);
+            int score = min_max(current_board , false , depth + 1 , alpha , beta , AI_symbol , human_symbol);
 
             Move<char> undo_move(0 , i , 0);
             current_board->update_board(&undo_move);
 
+            alpha = max(alpha , score);
+
             max_score = max(score , max_score);
+
+            if( alpha >= beta ) 
+                break;
+            
         }
     }
 
@@ -96,12 +102,18 @@ int FourInRow_UI::min_max(Board<char>* current_board , bool is_max , int depth ,
                 Move<char> current_move(0 , i , human_symbol);
                 current_board->update_board(&current_move);
 
-                int score = min_max(current_board , true , depth + 1 , AI_symbol , human_symbol);
+                int score = min_max(current_board , true , depth + 1 , alpha , beta , AI_symbol , human_symbol);
 
                 Move<char> undo_move(0 , i , 0);
                 current_board->update_board(&undo_move);
+                
+                beta = min(beta , score);
 
                 min_score = min(score , min_score);
+
+                if( alpha >= beta )
+                    break;
+
             }
         }
 
@@ -119,13 +131,16 @@ Move<char>* FourInRow_UI::get_AI_move(Player<char>* AI_player){
 
     Move<char>* best_move = new Move<char>(0 , 0 , AI_player->get_symbol());
 
-    for(int i = 0 ; i < test_board->get_columns() ; ++i){
+    int column_order[] = {3, 2, 4, 1, 5, 0, 6};
+
+    for (int idx = 0; idx < 7; ++idx) {
+        int i = column_order[idx];
 
         if( test_board->get_cell(0 , i) == '.' ){
             Move<char> current_move(0 , i , AI_player->get_symbol());
             test_board->update_board(&current_move);
 
-            int score = min_max(test_board , false , 0 , AI_player->get_symbol() , ( AI_player->get_symbol() == 'X' ) ? 'O' : 'X');
+            int score = min_max(test_board , false , 0 , best_score , 1e5 , AI_player->get_symbol() , ( AI_player->get_symbol() == 'X' ) ? 'O' : 'X');
 
             Move<char> undo_move(0 , i , 0);
             test_board->update_board(&undo_move);
