@@ -16,16 +16,20 @@ bool Numerical_Board::update_board(Move<int>* move){
     int y = move->get_y();
     int symbol = move->get_symbol();
 
-    if(x < 0 || y < 0 || x >= rows || y >= columns || board[x][y] != Blank_Symbol)
-        return false;
-    if(symbol == 0){
+    if( symbol == 0 && board[x][y] != Blank_Symbol ){
         n_moves--;
         board[x][y] = Blank_Symbol;
-    }else{
+        return true;
+    }
+
+    if( x < 0 || y < 0 || x >= rows || y >= columns || board[x][y] != Blank_Symbol )
+        return false;
+    else{
         n_moves++;
         board[x][y] = symbol;
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool Numerical_Board::is_win(Player<int>* player){
