@@ -11,7 +11,6 @@
 #include"SUS_UI.h"
 #include"FourInRow_UI.h"
 #include"FourInRow_Board.h"
-#include"MemoryGame_Board.h"
 #include"MemoryGame_UI.h"
 #include"PlayGameFunctions.h"
 
@@ -110,7 +109,7 @@ void PlayGameFunctions::playFourInRowGame(){
 void PlayGameFunctions::playMemoryGame(){
     UI<char>* game_ui = new MemoryGame_UI();
 
-    Board<char>* MemoryGameBoard = new MemoryGame_Board();
+    Board<char>* MemoryGameBoard = new X_O_Board();
 
     Player<char>** players = game_ui->setup_players();
 
