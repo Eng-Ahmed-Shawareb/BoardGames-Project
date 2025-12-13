@@ -1,7 +1,7 @@
-#ifndef MAIN_SCREEN_H
-#define MAIN_SCREEN_H
+#ifndef MAIN_MENU_H
+#define MAIN_MENU_H
 
-class MainScreen{
+class MainMenu{
 
 private : 
     enum class UserChoice { XOGAME = 1 , NUMERICALGAME = 2 , SUSGAME = 3 , FOURINROWGAME = 4 , MEMORYGAME = 5 };

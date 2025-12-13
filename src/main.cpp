@@ -1,12 +1,12 @@
 #include<iostream>
-#include"MainScreen.h"
+#include"MainMenu.h"
 using namespace std;
 
 int main(){
     
     srand(static_cast<unsigned int>(time(0)));
 
-    MainScreen::startBoardGameProgram();
+    MainMenu::startBoardGameProgram();
 
     return 0;
 }

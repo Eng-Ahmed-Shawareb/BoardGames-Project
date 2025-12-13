@@ -12,11 +12,11 @@
 #include"FourInRow_UI.h"
 #include"FourInRow_Board.h"
 #include"MemoryGame_UI.h"
-#include"PlayGameFunctions.h"
+#include"AppController.h"
 
 using namespace std;
 
-void PlayGameFunctions::playXOGame(){
+void AppController::playXOGame(){
     UI<char>* game_ui = new XO_UI();
 
     Board<char>* xo_board = new X_O_Board();
@@ -38,7 +38,7 @@ void PlayGameFunctions::playXOGame(){
     delete[] players;
 }
 
-void PlayGameFunctions::playNumericalGame(){
+void AppController::playNumericalGame(){
 
     UI<int>* game_ui = new Numerical_UI();
 
@@ -61,7 +61,7 @@ void PlayGameFunctions::playNumericalGame(){
     delete[] players;
 }
 
-void PlayGameFunctions::playSUSGame(){
+void AppController::playSUSGame(){
 
     UI<char>* game_ui = new SUS_UI();
 
@@ -84,7 +84,7 @@ void PlayGameFunctions::playSUSGame(){
     delete[] players;
 }
 
-void PlayGameFunctions::playFourInRowGame(){
+void AppController::playFourInRowGame(){
     UI<char>* game_ui = new FourInRow_UI();
 
     Board<char>* FourInRowBoard = new FourInRow_Board();
@@ -106,7 +106,7 @@ void PlayGameFunctions::playFourInRowGame(){
     delete[] players;
 }
 
-void PlayGameFunctions::playMemoryGame(){
+void AppController::playMemoryGame(){
     UI<char>* game_ui = new MemoryGame_UI();
 
     Board<char>* MemoryGameBoard = new X_O_Board();

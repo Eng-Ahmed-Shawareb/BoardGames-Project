@@ -1,36 +1,36 @@
 #include<iostream>
 #include<string>
-#include"MainScreen.h"
-#include"PlayGameFunctions.h"
+#include"MainMenu.h"
+#include"AppController.h"
 using namespace std;
 
-void MainScreen::implementUserChoice(UserChoice choice){
+void MainMenu::implementUserChoice(UserChoice choice){
     switch (choice)
     {
     case UserChoice::XOGAME :
         system("clear");
-        PlayGameFunctions::playXOGame();
+        AppController::playXOGame();
         break;
     case UserChoice::NUMERICALGAME :
         system("clear");
-        PlayGameFunctions::playNumericalGame();
+        AppController::playNumericalGame();
         break;
     case UserChoice::SUSGAME : 
         system("clear");
-        PlayGameFunctions::playSUSGame();
+        AppController::playSUSGame();
         break;
     case UserChoice::FOURINROWGAME : 
         system("clear");
-        PlayGameFunctions::playFourInRowGame();
+        AppController::playFourInRowGame();
         break;
     case UserChoice::MEMORYGAME : 
         system("clear");
-        PlayGameFunctions::playMemoryGame();
+        AppController::playMemoryGame();
         break;
     }
 }
 
-void MainScreen::printMainMenuScreen(){
+void MainMenu::printMainMenuScreen(){
     cout << "\t\t\t\t" << "=============================================" << endl;
     cout << "\t\t\t\t" << "     Welcome to our Board Games Program!" << endl;
     cout << "\t\t\t\t" << "=============================================" << endl;
@@ -42,7 +42,7 @@ void MainScreen::printMainMenuScreen(){
     cout << "\t\t\t\t" << "=============================================" << endl;
 }
 
-void MainScreen::startBoardGameProgram(){
+void MainMenu::startBoardGameProgram(){
     char playAgain;
 
     do

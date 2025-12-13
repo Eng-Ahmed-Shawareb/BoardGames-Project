@@ -1,10 +1,10 @@
-#ifndef PLAY_GAME_FUNCTIONS_H
-#define PLAY_GAME_FUNCTIONS_H
+#ifndef APP_CONTROLLAR_H
+#define APP_CONTROLLAR_H
 
 
 using namespace std;
 
-class PlayGameFunctions{
+class AppController{
 
 public : 
     static void playXOGame();
