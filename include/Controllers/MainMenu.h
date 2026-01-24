@@ -1,17 +1,23 @@
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
 
-class MainMenu{
+class MainMenu {
 
-private : 
-    enum class UserChoice { XOGAME = 1 , NUMERICALGAME = 2 , SUSGAME = 3 , FOURINROWGAME = 4 , MEMORYGAME = 5 };
-public :
+private:
+  enum class UserChoice {
+    XOGAME = 1,
+    NUMERICALGAME = 2,
+    SUSGAME = 3,
+    FOURINROWGAME = 4,
+    MEMORYGAME = 5
+  };
 
-    static void implementUserChoice(UserChoice choice);
+public:
+  static void implementUserChoice(UserChoice choice);
 
-    static void printMainMenuScreen();
+  static void printMainMenuScreen();
 
-    static void startBoardGameProgram();
+  static void startBoardGameProgram();
 };
 
 #endif

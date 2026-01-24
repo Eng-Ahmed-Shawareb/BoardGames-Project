@@ -1,33 +1,30 @@
 #ifndef NUMERICAL_BOARD_H
 #define NUMERICAL_BOARD_H
 
-#include<iostream>
-#include"BoardGame_Classes.h"
+#include "BoardGame_Classes.h"
+#include <iostream>
 
 using namespace std;
 
-class Numerical_Board : public Board<int>{
+class Numerical_Board : public Board<int> {
 
-private :
+private:
+  int Blank_Symbol = 0;
 
-    int Blank_Symbol = 0;
+public:
+  Numerical_Board();
 
-public : 
+  bool update_board(Move<int> *move) override;
 
-    Numerical_Board();
+  bool is_win(Player<int> *player) override;
 
-    bool update_board(Move<int>* move) override;
+  bool is_lose(Player<int> *player) override { return false; };
 
-    bool is_win(Player<int>* player) override;
+  bool is_draw(Player<int> *player) override;
 
-    bool is_lose(Player<int>* player) override {return false;};
+  bool game_is_over(Player<int> *player) override;
 
-    bool is_draw(Player<int>* player) override;
-
-    bool game_is_over(Player<int>* player) override;
-
-    ~Numerical_Board(){};
-    
+  ~Numerical_Board(){};
 };
 
 #endif
