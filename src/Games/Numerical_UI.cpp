@@ -6,20 +6,20 @@ using namespace std;
 
 Numerical_UI::Numerical_UI() : UI<int>("Welcome to my Numerical game!", 3){};
 
-void Numerical_UI::print_avaliable_numbers(Numerical_Board *current_board,
+void Numerical_UI::print_available_numbers(Numerical_Board *current_board,
                                            int num_type) {
   if (num_type % 2) {
     cout << "[ ";
-    for (auto it = current_board->avaliable_odd_numbers.begin();
-         it != current_board->avaliable_odd_numbers.end(); ++it) {
+    for (auto it = current_board->available_odd_numbers.begin();
+         it != current_board->available_odd_numbers.end(); ++it) {
       cout << *it << " ";
     }
     cout << "]";
 
   } else {
     cout << "[ ";
-    for (auto it = current_board->avaliable_even_numbers.begin();
-         it != current_board->avaliable_even_numbers.end(); ++it) {
+    for (auto it = current_board->available_even_numbers.begin();
+         it != current_board->available_even_numbers.end(); ++it) {
       cout << *it << " ";
     }
     cout << "]";
@@ -47,34 +47,34 @@ Move<int> *Numerical_UI::get_move(Player<int> *player) {
 
     if (num_type % 2) {
       cout << "Please enter number from : ";
-      print_avaliable_numbers(current_board, num_type);
+      print_available_numbers(current_board, num_type);
       cout << endl;
       cin >> symbol;
 
-      while (current_board->avaliable_odd_numbers.find(symbol) ==
-             current_board->avaliable_odd_numbers.end()) {
+      while (current_board->available_odd_numbers.find(symbol) ==
+             current_board->available_odd_numbers.end()) {
         cout << "Invalid number. ";
         cout << "Please enter number from : ";
-        print_avaliable_numbers(current_board, num_type);
+        print_available_numbers(current_board, num_type);
         cout << endl;
         cin >> symbol;
       }
-      current_board->avaliable_odd_numbers.erase(symbol);
+      current_board->available_odd_numbers.erase(symbol);
     } else {
       cout << "Please enter number from : ";
-      print_avaliable_numbers(current_board, num_type);
+      print_available_numbers(current_board, num_type);
       cout << endl;
       cin >> symbol;
 
-      while (current_board->avaliable_even_numbers.find(symbol) ==
-             current_board->avaliable_even_numbers.end()) {
+      while (current_board->available_even_numbers.find(symbol) ==
+             current_board->available_even_numbers.end()) {
         cout << "Invalid number. ";
         cout << "Please enter number from : ";
-        print_avaliable_numbers(current_board, num_type);
+        print_available_numbers(current_board, num_type);
         cout << endl;
         cin >> symbol;
       }
-      current_board->avaliable_even_numbers.erase(symbol);
+      current_board->available_even_numbers.erase(symbol);
     }
 
     cout << "\nPlease enter your move x and y (0 to 2): ";
@@ -89,9 +89,9 @@ Move<int> *Numerical_UI::get_move(Player<int> *player) {
 
       Move<int> *AI_move = AI_Player->get_best_move();
       if (num_type % 2) {
-        current_board->avaliable_odd_numbers.erase(AI_move->get_symbol());
+        current_board->available_odd_numbers.erase(AI_move->get_symbol());
       } else {
-        current_board->avaliable_even_numbers.erase(AI_move->get_symbol());
+        current_board->available_even_numbers.erase(AI_move->get_symbol());
       }
       return AI_move;
     }

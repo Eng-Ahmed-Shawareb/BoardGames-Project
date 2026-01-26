@@ -15,8 +15,8 @@ private:
 public:
   Numerical_Board();
 
-  set<int> avaliable_even_numbers;
-  set<int> avaliable_odd_numbers;
+  set<int> available_even_numbers;
+  set<int> available_odd_numbers;
 
   bool update_board(Move<int> *move) override;
 

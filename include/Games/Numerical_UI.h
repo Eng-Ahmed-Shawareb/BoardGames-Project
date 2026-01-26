@@ -12,7 +12,7 @@ class Numerical_UI : public UI<int> {
 public:
   Numerical_UI();
 
-  void print_avaliable_numbers(Numerical_Board* current_board , int num_type);
+  void print_available_numbers(Numerical_Board* current_board , int num_type);
 
   Player<int> *create_player(string &name, int symbol,
                              PlayerType type) override;

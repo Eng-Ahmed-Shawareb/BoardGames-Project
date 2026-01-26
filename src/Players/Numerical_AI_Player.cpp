@@ -13,10 +13,10 @@ Move<int> *Numerical_AI_Player::get_best_move() {
   vector<int> choices;
   int symbol_index;
   if (get_symbol() % 2) {
-    for (auto &i : test_board->avaliable_odd_numbers)
+    for (auto &i : test_board->available_odd_numbers)
       choices.push_back(i);
   } else {
-    for (auto &i : test_board->avaliable_even_numbers)
+    for (auto &i : test_board->available_even_numbers)
       choices.push_back(i);
   }
 
@@ -31,16 +31,16 @@ Move<int> *Numerical_AI_Player::get_best_move() {
           Move<int> current_move(i, j, num);
           test_board->update_board(&current_move);
 
-          (get_symbol() % 2) ? test_board->avaliable_odd_numbers.erase(num)
-                             : test_board->avaliable_even_numbers.erase(num);
+          (get_symbol() % 2) ? test_board->available_odd_numbers.erase(num)
+                             : test_board->available_even_numbers.erase(num);
 
           int score = min_max(test_board, 0, best_score, 1e5, false);
 
           Move<int> undo_move(i, j, 0);
           test_board->update_board(&undo_move);
 
-          (get_symbol() % 2) ? test_board->avaliable_odd_numbers.insert(num)
-                             : test_board->avaliable_even_numbers.insert(num);
+          (get_symbol() % 2) ? test_board->available_odd_numbers.insert(num)
+                             : test_board->available_even_numbers.insert(num);
 
           if (score > best_score) {
             best_score = score;
@@ -51,8 +51,8 @@ Move<int> *Numerical_AI_Player::get_best_move() {
       }
     }
   (get_symbol() % 2)
-      ? test_board->avaliable_odd_numbers.erase(best_move->get_symbol())
-      : test_board->avaliable_even_numbers.erase(best_move->get_symbol());
+      ? test_board->available_odd_numbers.erase(best_move->get_symbol())
+      : test_board->available_even_numbers.erase(best_move->get_symbol());
   delete test_board;
   return best_move;
 }
@@ -88,10 +88,10 @@ int Numerical_AI_Player::min_max(Numerical_Board *current_board, int depth,
     vector<int> choices;
     int symbol_index;
     if (get_symbol() % 2) {
-      for (auto &i : current_board->avaliable_odd_numbers)
+      for (auto &i : current_board->available_odd_numbers)
         choices.push_back(i);
     } else {
-      for (auto &i : current_board->avaliable_even_numbers)
+      for (auto &i : current_board->available_even_numbers)
         choices.push_back(i);
     }
 
@@ -104,8 +104,8 @@ int Numerical_AI_Player::min_max(Numerical_Board *current_board, int depth,
             current_board->update_board(&current_move);
 
             (get_symbol() % 2)
-                ? current_board->avaliable_odd_numbers.erase(num)
-                : current_board->avaliable_even_numbers.erase(num);
+                ? current_board->available_odd_numbers.erase(num)
+                : current_board->available_even_numbers.erase(num);
 
             int score = min_max(current_board, depth + 1, alpha, beta, false);
 
@@ -113,8 +113,8 @@ int Numerical_AI_Player::min_max(Numerical_Board *current_board, int depth,
             current_board->update_board(&undo_move);
 
             (get_symbol() % 2)
-                ? current_board->avaliable_odd_numbers.insert(num)
-                : current_board->avaliable_even_numbers.insert(num);
+                ? current_board->available_odd_numbers.insert(num)
+                : current_board->available_even_numbers.insert(num);
 
             max_score = max(max_score, score);
 
@@ -135,10 +135,10 @@ int Numerical_AI_Player::min_max(Numerical_Board *current_board, int depth,
     vector<int> choices;
     int symbol_index;
     if (human_type % 2) {
-      for (auto &i : current_board->avaliable_odd_numbers)
+      for (auto &i : current_board->available_odd_numbers)
         choices.push_back(i);
     } else {
-      for (auto &i : current_board->avaliable_even_numbers)
+      for (auto &i : current_board->available_even_numbers)
         choices.push_back(i);
     }
 
@@ -150,16 +150,16 @@ int Numerical_AI_Player::min_max(Numerical_Board *current_board, int depth,
             Move<int> current_move(i, j, num);
             current_board->update_board(&current_move);
 
-            (human_type % 2) ? current_board->avaliable_odd_numbers.erase(num)
-                             : current_board->avaliable_even_numbers.erase(num);
+            (human_type % 2) ? current_board->available_odd_numbers.erase(num)
+                             : current_board->available_even_numbers.erase(num);
 
             int score = min_max(current_board, depth + 1, alpha, beta, true);
 
             Move<int> undo_move(i, j, 0);
             current_board->update_board(&undo_move);
             (human_type % 2)
-                ? current_board->avaliable_odd_numbers.insert(num)
-                : current_board->avaliable_even_numbers.insert(num);
+                ? current_board->available_odd_numbers.insert(num)
+                : current_board->available_even_numbers.insert(num);
 
             min_score = min(min_score, score);
 
