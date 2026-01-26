@@ -9,6 +9,8 @@ Numerical_Board::Numerical_Board() : Board(3, 3) {
       element = Blank_Symbol;
     }
   }
+  avaliable_even_numbers = {2, 4, 6, 8};
+  avaliable_odd_numbers = {1, 3, 5, 7, 9};
 };
 
 bool Numerical_Board::update_board(Move<int> *move) {

@@ -2,6 +2,7 @@
 #define NUMERICAL_BOARD_H
 
 #include "BoardGame_Classes.h"
+#include <set>
 #include <iostream>
 
 using namespace std;
@@ -13,6 +14,9 @@ private:
 
 public:
   Numerical_Board();
+
+  set<int> avaliable_even_numbers;
+  set<int> avaliable_odd_numbers;
 
   bool update_board(Move<int> *move) override;
 
