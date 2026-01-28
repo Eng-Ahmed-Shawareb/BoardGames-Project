@@ -1,46 +1,46 @@
-#include "FourInRow_Board.h"
+#include "clsFourInRowBoard.h"
 #include "BoardGame_Classes.h"
 #include <iostream>
 
 using namespace std;
 
-FourInRow_Board::FourInRow_Board() : Board(6, 7) {
+clsFourInRowBoard::clsFourInRowBoard() : Board(6, 7) {
   for (auto &row : board) {
     for (auto &element : row) {
-      element = Blank_Symbol;
+      element = _blankSymbol;
     }
   }
 }
 
-bool FourInRow_Board::valid_move(int y) {
+bool clsFourInRowBoard::isValidMove(int y) {
   if (y < 0 || y > 6)
     return false;
 
   for (int i = 0; i < 6; ++i) {
-    if (board[i][y] == Blank_Symbol)
+    if (board[i][y] == _blankSymbol)
       return true;
   }
   return false;
 }
 
-bool FourInRow_Board::update_board(Move<char> *move) {
+bool clsFourInRowBoard::update_board(Move<char> *move) {
   int x = 0;
   int y = move->get_y();
   char symbol = move->get_symbol();
 
   if (symbol == 0) {
     for (int i = 0; i < rows; ++i) {
-      if (board[i][y] != Blank_Symbol) {
-        board[i][y] = Blank_Symbol;
+      if (board[i][y] != _blankSymbol) {
+        board[i][y] = _blankSymbol;
         n_moves--;
         return true;
       }
     }
   }
 
-  if (valid_move(y)) {
+  if (isValidMove(y)) {
     for (int i = 5; i >= 0; --i) {
-      if (board[i][y] == Blank_Symbol) {
+      if (board[i][y] == _blankSymbol) {
         board[i][y] = toupper(symbol);
         n_moves++;
         return true;
@@ -50,24 +50,24 @@ bool FourInRow_Board::update_board(Move<char> *move) {
   return false;
 }
 
-bool FourInRow_Board::is_win(Player<char> *player) {
+bool clsFourInRowBoard::is_win(Player<char> *player) {
   int rows = player->get_board_ptr()->get_rows();
   int columns = player->get_board_ptr()->get_columns();
-  char player_symbol = player->get_symbol();
-  string four_symbol = "";
+  char playerSymbol = player->get_symbol();
+  string fourSymbol = "";
   for (int i = 0; i < 4; ++i) {
-    four_symbol += player_symbol;
+    fourSymbol += playerSymbol;
   }
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < columns; ++j) {
-      if (board[i][j] == player_symbol) {
+      if (board[i][j] == playerSymbol) {
         string s = "";
         for (int u = j; u < j + 4; ++u) {
           if (u < columns) {
             s += board[i][u];
           }
         }
-        if (s == four_symbol)
+        if (s == fourSymbol)
           return true;
         s = "";
         for (int u = i; u >= i - 3; --u) {
@@ -75,7 +75,7 @@ bool FourInRow_Board::is_win(Player<char> *player) {
             s += board[u][j];
           }
         }
-        if (s == four_symbol)
+        if (s == fourSymbol)
           return true;
         s = "";
         for (int u = i, v = j; u >= i - 3 && v < j + 4; --u, ++v) {
@@ -83,7 +83,7 @@ bool FourInRow_Board::is_win(Player<char> *player) {
             s += board[u][v];
           }
         }
-        if (s == four_symbol)
+        if (s == fourSymbol)
           return true;
         s = "";
         for (int u = i, v = j; u >= i - 3 && v >= j - 3; --u, --v) {
@@ -91,7 +91,7 @@ bool FourInRow_Board::is_win(Player<char> *player) {
             s += board[u][v];
           }
         }
-        if (s == four_symbol)
+        if (s == fourSymbol)
           return true;
       }
     }
@@ -99,8 +99,8 @@ bool FourInRow_Board::is_win(Player<char> *player) {
   return false;
 }
 
-bool FourInRow_Board::is_lose(Player<char> *player) { return false; }
+bool clsFourInRowBoard::is_lose(Player<char> *player) { return false; }
 
-bool FourInRow_Board::is_draw(Player<char> *player) { return (n_moves == 42); }
+bool clsFourInRowBoard::is_draw(Player<char> *player) { return (n_moves == 42); }
 
-bool FourInRow_Board::game_is_over(Player<char> *player) { return false; }
+bool clsFourInRowBoard::game_is_over(Player<char> *player) { return false; }

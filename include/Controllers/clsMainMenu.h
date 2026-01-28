@@ -1,10 +1,10 @@
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
 
-class MainMenu {
+class clsMainMenu {
 
 private:
-  enum class UserChoice {
+  enum class _enUserChoice {
     XOGAME = 1,
     NUMERICALGAME = 2,
     SUSGAME = 3,
@@ -13,7 +13,7 @@ private:
   };
 
 public:
-  static void implementUserChoice(UserChoice choice);
+  static void implementUserChoice(_enUserChoice choice);
 
   static void printMainMenuScreen();
 

@@ -2,21 +2,21 @@
 #define NUMERICAL_BOARD_H
 
 #include "BoardGame_Classes.h"
-#include <set>
 #include <iostream>
+#include <set>
 
 using namespace std;
 
-class Numerical_Board : public Board<int> {
+class clsNumericalBoard : public Board<int> {
 
 private:
-  int Blank_Symbol = 0;
+  int _blankSymbol = 0;
 
 public:
-  Numerical_Board();
+  clsNumericalBoard();
 
-  set<int> available_even_numbers;
-  set<int> available_odd_numbers;
+  set<int> sAvailableEvenNumbers;
+  set<int> sAvailableOddNumbers;
 
   bool update_board(Move<int> *move) override;
 
@@ -28,7 +28,7 @@ public:
 
   bool game_is_over(Player<int> *player) override;
 
-  ~Numerical_Board(){};
+  ~clsNumericalBoard(){};
 };
 
 #endif

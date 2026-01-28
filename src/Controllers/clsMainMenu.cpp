@@ -1,35 +1,35 @@
-#include "MainMenu.h"
-#include "AppController.h"
+#include "clsMainMenu.h"
+#include "clsAppController.h"
 #include <iostream>
 #include <string>
 using namespace std;
 
-void MainMenu::implementUserChoice(UserChoice choice) {
+void clsMainMenu::implementUserChoice(_enUserChoice choice) {
   switch (choice) {
-  case UserChoice::XOGAME:
+  case _enUserChoice::XOGAME:
     system("clear");
-    AppController::playXOGame();
+    clsAppController::playXOGame();
     break;
-  case UserChoice::NUMERICALGAME:
+  case _enUserChoice::NUMERICALGAME:
     system("clear");
-    AppController::playNumericalGame();
+    clsAppController::playNumericalGame();
     break;
-  case UserChoice::SUSGAME:
+  case _enUserChoice::SUSGAME:
     system("clear");
-    AppController::playSUSGame();
+    clsAppController::playSUSGame();
     break;
-  case UserChoice::FOURINROWGAME:
+  case _enUserChoice::FOURINROWGAME:
     system("clear");
-    AppController::playFourInRowGame();
+    clsAppController::playFourInRowGame();
     break;
-  case UserChoice::MEMORYGAME:
+  case _enUserChoice::MEMORYGAME:
     system("clear");
-    AppController::playMemoryGame();
+    clsAppController::playMemoryGame();
     break;
   }
 }
 
-void MainMenu::printMainMenuScreen() {
+void clsMainMenu::printMainMenuScreen() {
   cout << "\t\t\t\t" << "=============================================" << endl;
   cout << "\t\t\t\t" << "     Welcome to our Board Games Program!" << endl;
   cout << "\t\t\t\t" << "=============================================" << endl;
@@ -41,7 +41,7 @@ void MainMenu::printMainMenuScreen() {
   cout << "\t\t\t\t" << "=============================================" << endl;
 }
 
-void MainMenu::startBoardGameProgram() {
+void clsMainMenu::startBoardGameProgram() {
   char playAgain;
 
   do {
@@ -54,7 +54,7 @@ void MainMenu::startBoardGameProgram() {
       cout << "Invalid choice. please enter another one ? [1 : 5] ? " << endl;
       cin >> choice;
     }
-    implementUserChoice((UserChoice)choice);
+    implementUserChoice((_enUserChoice)choice);
     cout << "Good Game!" << endl;
     cout << "Do you want to play again ? [Y : N] ? " << endl;
     cin >> playAgain;

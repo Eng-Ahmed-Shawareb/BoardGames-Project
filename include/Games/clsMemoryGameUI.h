@@ -3,11 +3,11 @@
 
 #include "BoardGame_Classes.h"
 
-class MemoryGame_UI : public UI<char> {
+class clsMemoryGameUI : public UI<char> {
 public:
-  MemoryGame_UI();
+  clsMemoryGameUI();
 
-  ~MemoryGame_UI(){};
+  ~clsMemoryGameUI(){};
 
   Player<char> *create_player(string &name, char symbol, PlayerType type);
 

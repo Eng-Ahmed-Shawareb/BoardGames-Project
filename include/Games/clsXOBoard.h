@@ -3,18 +3,18 @@
 
 #include "BoardGame_Classes.h"
 
-class X_O_Board : public Board<char> {
+class clsXOBoard : public Board<char> {
 private:
-  char blank_symbol = '.';
+  char _blankSymbol = '.';
 
 public:
-  X_O_Board();
+  clsXOBoard();
 
   bool update_board(Move<char> *move);
 
   bool is_win(Player<char> *player);
 
-  bool is_lose(Player<char> *);
+  bool is_lose(Player<char> *player);
 
   bool is_draw(Player<char> *player);
 

@@ -1,11 +1,11 @@
-#ifndef SUS_UI_H
-#define SUS_UI_H
+#ifndef FOUR_IN_ROW_UI_H
+#define FOUR_IN_ROW_UI_H
 
 #include "BoardGame_Classes.h"
-#include "SUS_Board.h"
-class SUS_UI : public UI<char> {
+
+class clsFourInRowUI : public UI<char> {
 public:
-  SUS_UI();
+  clsFourInRowUI();
 
   Move<char> *get_move(Player<char> *player) override;
 

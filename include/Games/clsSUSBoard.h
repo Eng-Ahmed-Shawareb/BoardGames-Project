@@ -3,17 +3,17 @@
 
 #include "BoardGame_Classes.h"
 
-class SUS_Board : public Board<char> {
+class clsSUSBoard : public Board<char> {
 private:
-  char Blank_Symbol = '.';
-  vector<vector<int>> order_of_moves;
+  char _blankSymbol = '.';
+  vector<vector<int>> _vOrderOfMoves;
 
 public:
-  SUS_Board();
+  clsSUSBoard();
 
-  pair<int, int> calculate_players_score();
+  pair<int, int> calculatePlayersScore();
 
-  bool valid_move(int x, int y);
+  bool isValidMove(int x, int y);
 
   bool is_win(Player<char> *player) override;
 

@@ -2,17 +2,17 @@
 #define NUMERICAL_UI_H
 
 #include "BoardGame_Classes.h"
-#include "Numerical_Board.h"
+#include "clsNumericalBoard.h"
 #include <iostream>
 #include <set>
 
 using namespace std;
 
-class Numerical_UI : public UI<int> {
+class clsNumericalUI : public UI<int> {
 public:
-  Numerical_UI();
+  clsNumericalUI();
 
-  void print_available_numbers(Numerical_Board* current_board , int num_type);
+  void printAvailableNumbers(clsNumericalBoard *currentBoard, int numType);
 
   Player<int> *create_player(string &name, int symbol,
                              PlayerType type) override;

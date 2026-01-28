@@ -3,7 +3,7 @@
 
 using namespace std;
 
-class AppController {
+class clsAppController {
 
 public:
   static void playXOGame();

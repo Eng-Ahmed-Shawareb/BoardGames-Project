@@ -3,14 +3,14 @@
 
 #include "BoardGame_Classes.h"
 
-class FourInRow_Board : public Board<char> {
+class clsFourInRowBoard : public Board<char> {
 private:
-  char Blank_Symbol = '.';
+  char _blankSymbol = '.';
 
 public:
-  FourInRow_Board();
+  clsFourInRowBoard();
 
-  bool valid_move(int y);
+  bool isValidMove(int y);
 
   bool update_board(Move<char> *move) override;
 

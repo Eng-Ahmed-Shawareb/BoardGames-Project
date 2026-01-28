@@ -1,0 +1,17 @@
+#ifndef SUS_AI_PLAYER_H
+#define SUS_AI_PLAYER_H
+
+#include "BoardGame_Classes.h"
+#include "clsSUSBoard.h"
+
+class clsSUSAIPlayer : public Player<char> {
+private:
+  int _minMax(clsSUSBoard *currentBoard, bool isMax);
+
+public:
+  clsSUSAIPlayer(string name, char symbol);
+
+  Move<char> *getBestMove();
+};
+
+#endif
