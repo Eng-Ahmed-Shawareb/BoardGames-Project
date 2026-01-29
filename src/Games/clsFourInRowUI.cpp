@@ -2,6 +2,7 @@
 #include "BoardGame_Classes.h"
 #include "clsFourInRowAIPlayer.h"
 #include "clsFourInRowBoard.h"
+#include "clsInputValidate.h"
 #include <iostream>
 
 using namespace std;
@@ -15,7 +16,10 @@ clsMove<char> *clsFourInRowUI::getMove(clsPlayer<char> *player) {
   char symbol = player->getSymbol();
   if (player->getType() == enPlayerType::HUMAN) {
     cout << "Please enter your move column [0 to 6] : ";
-    cin >> y;
+    while (!clsInputValidate::validIntegerInRange(y, 0, 6)) {
+      cout << endl
+           << "Invalid input , Please enter your move column [0 to 6] : ";
+    }
   } else if (player->getType() == enPlayerType::COMPUTER) {
     clsFourInRowAIPlayer *AIPlayer =
         dynamic_cast<clsFourInRowAIPlayer *>(player);

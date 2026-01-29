@@ -1,5 +1,6 @@
 #include "clsMainMenu.h"
 #include "clsAppController.h"
+#include "clsInputValidate.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -49,10 +50,8 @@ void clsMainMenu::startBoardGameProgram() {
     int choice;
     printMainMenuScreen();
     cout << "\t\t\t\t" << "     Please enter your choice ? [1 : 5] ? " << endl;
-    cin >> choice;
-    while (choice > 5 || choice < 1) {
+    while (!clsInputValidate::validIntegerInRange(choice, 1, 5)) {
       cout << "Invalid choice. please enter another one ? [1 : 5] ? " << endl;
-      cin >> choice;
     }
     implementUserChoice((_enUserChoice)choice);
     cout << "Good Game!" << endl;

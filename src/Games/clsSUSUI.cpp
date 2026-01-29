@@ -2,6 +2,7 @@
 #include "BoardGame_Classes.h"
 #include "clsSUSAIPlayer.h"
 #include "clsSUSBoard.h"
+#include "clsInputValidate.h"
 #include <iostream>
 #include <vector>
 
@@ -14,8 +15,12 @@ clsMove<char> *clsSUSUI::getMove(clsPlayer<char> *player) {
 
   if (player->getType() == enPlayerType::HUMAN) {
 
-    cout << "Please enter your move x and y [0 to 2] : ";
-    cin >> x >> y;
+    cout << "Please enter your move x and y (0 to 2): ";
+    while ((!clsInputValidate::validIntegerInRange(x, 0, 2)) ||
+           (!clsInputValidate::validIntegerInRange(y, 0, 2))) {
+      cout << endl
+           << "Invalid input , Please enter your move x and y (0 to 2): ";
+    }
 
   }
 

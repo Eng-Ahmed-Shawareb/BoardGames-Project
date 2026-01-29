@@ -1,5 +1,6 @@
 #include "clsMemoryGameUI.h"
 #include "BoardGame_Classes.h"
+#include "clsInputValidate.h"
 #include "clsXOAIPlayer.h"
 #include "clsXOBoard.h"
 #include <algorithm>
@@ -12,7 +13,8 @@ clsMemoryGameUI::clsMemoryGameUI()
 clsPlayer<char> *clsMemoryGameUI::createPlayer(string &name, char symbol,
                                                enPlayerType type) {
   // Create player based on type
-  cout << "Creating " << (type == enPlayerType::HUMAN ? "human" : "computer");
+  cout << "Creating " << (type == enPlayerType::HUMAN ? "human" : "computer")
+       << endl;
 
   if (type == enPlayerType::COMPUTER) {
     return new clsXOAIPlayer(name, symbol);
@@ -24,8 +26,12 @@ clsMove<char> *clsMemoryGameUI::getMove(clsPlayer<char> *player) {
   int x, y;
 
   if (player->getType() == enPlayerType::HUMAN) {
-    cout << "\nPlease enter your move x and y (0 to 2): ";
-    cin >> x >> y;
+    cout << "Please enter your move x and y (0 to 2): ";
+    while ((!clsInputValidate::validIntegerInRange(x, 0, 2)) ||
+           (!clsInputValidate::validIntegerInRange(y, 0, 2))) {
+      cout << endl
+           << "Invalid input , Please enter your move x and y (0 to 2): ";
+    }
   } else if (player->getType() == enPlayerType::COMPUTER) {
     clsXOAIPlayer *AIPlayer = dynamic_cast<clsXOAIPlayer *>(player);
     if (AIPlayer) {

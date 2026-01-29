@@ -1,4 +1,5 @@
 #include "clsNumericalUI.h"
+#include "clsInputValidate.h"
 #include "clsNumericalAIPlayer.h"
 #include <iostream>
 #include <vector>
@@ -50,36 +51,38 @@ clsMove<int> *clsNumericalUI::getMove(clsPlayer<int> *player) {
       cout << "Please enter number from : ";
       printAvailableNumbers(currentBoard, numType);
       cout << endl;
-      cin >> symbol;
 
-      while (currentBoard->sAvailableOddNumbers.find(symbol) ==
-             currentBoard->sAvailableOddNumbers.end()) {
-        cout << "Invalid number. ";
+      while ((!clsInputValidate::validInteger(symbol)) ||
+             (currentBoard->sAvailableOddNumbers.find(symbol) ==
+              currentBoard->sAvailableOddNumbers.end())) {
+        cout << "Invalid input. ";
         cout << "Please enter number from : ";
         printAvailableNumbers(currentBoard, numType);
         cout << endl;
-        cin >> symbol;
       }
       currentBoard->sAvailableOddNumbers.erase(symbol);
     } else {
       cout << "Please enter number from : ";
       printAvailableNumbers(currentBoard, numType);
       cout << endl;
-      cin >> symbol;
 
-      while (currentBoard->sAvailableEvenNumbers.find(symbol) ==
-             currentBoard->sAvailableEvenNumbers.end()) {
-        cout << "Invalid number. ";
+      while ((!clsInputValidate::validInteger(symbol)) ||
+             (currentBoard->sAvailableEvenNumbers.find(symbol) ==
+              currentBoard->sAvailableEvenNumbers.end())) {
+        cout << "Invalid input. ";
         cout << "Please enter number from : ";
         printAvailableNumbers(currentBoard, numType);
         cout << endl;
-        cin >> symbol;
       }
       currentBoard->sAvailableEvenNumbers.erase(symbol);
     }
 
-    cout << "\nPlease enter your move x and y (0 to 2): ";
-    cin >> x >> y;
+    cout << "Please enter your move x and y (0 to 2): ";
+    while ((!clsInputValidate::validIntegerInRange(x, 0, 2)) ||
+           (!clsInputValidate::validIntegerInRange(y, 0, 2))) {
+      cout << endl
+           << "Invalid input , Please enter your move x and y (0 to 2): ";
+    }
 
   }
 
