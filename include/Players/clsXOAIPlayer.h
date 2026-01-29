@@ -9,11 +9,11 @@ using namespace std;
 
 class clsXOAIPlayer : public clsPlayer<char> {
 private:
-  int _minMax(clsBoard<char> *currentBoard, int depth, bool isMax);
+  int _minMax(clsBoard<char> *currentBoard, int depth, bool isMax) const;
 
 public:
   clsXOAIPlayer(string name, char symbol);
-  clsMove<char> *getBestMove();
+  clsMove<char> *getBestMove() const;
 };
 
 #endif

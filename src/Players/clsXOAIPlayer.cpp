@@ -4,7 +4,7 @@ using namespace std;
 clsXOAIPlayer::clsXOAIPlayer(string name, char symbol)
     : clsPlayer<char>(name, symbol, enPlayerType::COMPUTER) {}
 
-clsMove<char> *clsXOAIPlayer::getBestMove() {
+clsMove<char> *clsXOAIPlayer::getBestMove() const {
 
   clsXOBoard *testBoard = new clsXOBoard();
   *testBoard = *(dynamic_cast<clsXOBoard *>(getBoardPtr()));
@@ -37,18 +37,19 @@ clsMove<char> *clsXOAIPlayer::getBestMove() {
 }
 
 int clsXOAIPlayer::_minMax(clsBoard<char> *currentBoard, int depth,
-                           bool isMax) {
+                           bool isMax) const {
   // base case
   char humanSymbol = (getSymbol() == 'X') ? 'O' : 'X';
   clsPlayer<char> humanPlayer("human", humanSymbol, enPlayerType::HUMAN);
+  clsPlayer<char> AIPlayer("AI", getSymbol(), enPlayerType::COMPUTER);
 
-  if (currentBoard->isWin(this)) {
+  if (currentBoard->isWin(&AIPlayer)) {
     return 10 - depth;
   }
   if (currentBoard->isWin(&humanPlayer)) {
     return -10 + depth;
   }
-  if (currentBoard->isDraw(this)) {
+  if (currentBoard->isDraw(&AIPlayer)) {
     return 0;
   }
 

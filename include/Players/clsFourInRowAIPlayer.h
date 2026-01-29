@@ -7,12 +7,12 @@
 class clsFourInRowAIPlayer : public clsPlayer<char> {
 private:
   int _minMax(clsBoard<char> *currentBoard, bool isMax, int depth, int alpha,
-              int beta);
+              int beta) const;
 
 public:
   clsFourInRowAIPlayer(string name, char symbol);
 
-  clsMove<char> *getBestMove();
+  clsMove<char> *getBestMove() const;
 };
 
 #endif

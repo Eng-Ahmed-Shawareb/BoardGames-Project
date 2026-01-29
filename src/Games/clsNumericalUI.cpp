@@ -8,7 +8,7 @@ clsNumericalUI::clsNumericalUI()
     : clsUI<int>("Welcome to my Numerical game!", 3){};
 
 void clsNumericalUI::printAvailableNumbers(clsNumericalBoard *currentBoard,
-                                           int numType) {
+                                           const int &numType) const {
   if (numType % 2) {
     cout << "[ ";
     for (auto it = currentBoard->sAvailableOddNumbers.begin();

@@ -3,7 +3,7 @@
 clsNumericalAIPlayer::clsNumericalAIPlayer(string name, int symbol)
     : clsPlayer<int>(name, symbol, enPlayerType::COMPUTER){};
 
-clsMove<int> *clsNumericalAIPlayer::getBestMove() {
+clsMove<int> *clsNumericalAIPlayer::getBestMove() const {
 
   clsNumericalBoard *testBoard = new clsNumericalBoard();
   *testBoard = *(dynamic_cast<clsNumericalBoard *>(getBoardPtr()));
@@ -58,7 +58,7 @@ clsMove<int> *clsNumericalAIPlayer::getBestMove() {
 }
 
 int clsNumericalAIPlayer::_minMax(clsNumericalBoard *currentBoard, int depth,
-                                  int alpha, int beta, bool isMax) {
+                                  int alpha, int beta, bool isMax) const {
   // base case
 
   clsPlayer<int> tempPlayer("temp", 0, enPlayerType::HUMAN);

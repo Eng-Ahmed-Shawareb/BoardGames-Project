@@ -3,7 +3,7 @@
 clsFourInRowAIPlayer::clsFourInRowAIPlayer(string name, char symbol)
     : clsPlayer<char>(name, symbol, enPlayerType::COMPUTER) {}
 
-clsMove<char> *clsFourInRowAIPlayer::getBestMove() {
+clsMove<char> *clsFourInRowAIPlayer::getBestMove() const {
 
   clsFourInRowBoard *testBoard = new clsFourInRowBoard();
   *testBoard = *(dynamic_cast<clsFourInRowBoard *>(getBoardPtr()));
@@ -39,7 +39,7 @@ clsMove<char> *clsFourInRowAIPlayer::getBestMove() {
 }
 
 int clsFourInRowAIPlayer::_minMax(clsBoard<char> *currentBoard, bool isMax,
-                                  int depth, int alpha, int beta) {
+                                  int depth, int alpha, int beta) const {
   // base case
   char humanSymbol = (getSymbol() == 'X') ? 'O' : 'X';
   clsPlayer<char> AIPlayer("AI", getSymbol(), enPlayerType::COMPUTER);

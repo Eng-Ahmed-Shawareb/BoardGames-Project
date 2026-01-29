@@ -14,7 +14,7 @@ clsSUSBoard::clsSUSBoard() : clsBoard(3, 3), _vOrderOfMoves(3, vector<int>(3)) {
     }
 }
 
-pair<int, int> clsSUSBoard::calculatePlayersScore() {
+pair<int, int> clsSUSBoard::calculatePlayersScore() const {
   pair<int, int> score = {0, 0};
 
   for (int i = 0; i < 3; ++i) {
@@ -62,7 +62,7 @@ pair<int, int> clsSUSBoard::calculatePlayersScore() {
   return score;
 }
 
-bool clsSUSBoard::isValidMove(int x, int y) {
+bool clsSUSBoard::isValidMove(const int &x, const int &y) const {
   return (x >= 0 && x < rows && y >= 0 && y < columns);
 }
 

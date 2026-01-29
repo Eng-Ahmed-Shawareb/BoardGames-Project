@@ -12,7 +12,8 @@ class clsNumericalUI : public clsUI<int> {
 public:
   clsNumericalUI();
 
-  void printAvailableNumbers(clsNumericalBoard *currentBoard, int numType);
+  void printAvailableNumbers(clsNumericalBoard *currentBoard,
+                             const int &numType) const;
 
   clsPlayer<int> *createPlayer(string &name, int symbol,
                                enPlayerType type) override;

@@ -7,12 +7,12 @@
 class clsNumericalAIPlayer : public clsPlayer<int> {
 private:
   int _minMax(clsNumericalBoard *currentBoard, int depth, int alpha, int beta,
-              bool isMax);
+              bool isMax) const;
 
 public:
   clsNumericalAIPlayer(string name, int symbol);
 
-  clsMove<int> *getBestMove();
+  clsMove<int> *getBestMove() const;
 };
 
 #endif

@@ -45,10 +45,10 @@ enum class enPlayerType {
  */
 template <typename T> class clsBoard {
 protected:
-  int rows;                ///< Number of rows
-  int columns;             ///< Number of columns
+  int rows;                 ///< Number of rows
+  int columns;              ///< Number of columns
   vector<vector<T>> vBoard; ///< 2D vector for the board
-  int nMoves = 0;         ///< Number of moves made
+  int nMoves = 0;           ///< Number of moves made
 
 public:
   /**
@@ -132,9 +132,9 @@ public:
  */
 template <typename T> class clsPlayer {
 protected:
-  string name;        ///< Player name
-  enPlayerType type;    ///< Player type (e.g., HUMAN or COMPUTER)
-  T symbol;           ///< Player's symbol on board
+  string name;           ///< Player name
+  enPlayerType type;     ///< Player type (e.g., HUMAN or COMPUTER)
+  T symbol;              ///< Player's symbol on board
   clsBoard<T> *boardPtr; ///< Pointer to the game board
 
 public:
@@ -186,7 +186,7 @@ protected:
    * @brief Ask the user to choose the player type from a list.
    */
   virtual enPlayerType getPlayerTypeChoice(string playerLabel,
-                                            const vector<string> &options) {
+                                           const vector<string> &options) {
     cout << "Choose " << playerLabel << " type:\n";
     for (size_t i = 0; i < options.size(); ++i)
       cout << i + 1 << ". " << options[i] << "\n";
@@ -269,7 +269,8 @@ public:
   /**
    * @brief Construct a game manager with board, players, and UI.
    */
-  clsGameManager(clsBoard<T> *b, clsPlayer<T> *p[2], clsUI<T> *u) : _boardPtr(b), _UI(u) {
+  clsGameManager(clsBoard<T> *b, clsPlayer<T> *p[2], clsUI<T> *u)
+      : _boardPtr(b), _UI(u) {
     _players[0] = p[0];
     _players[1] = p[1];
     _players[0]->setBoardPtr(b);
@@ -333,7 +334,8 @@ template <typename T> clsPlayer<T> **clsUI<T>::setupPlayers() {
  * @brief Default implementation of creating two players.
  */
 template <typename T>
-clsPlayer<T> *clsUI<T>::createPlayer(string &name, T symbol, enPlayerType type) {
+clsPlayer<T> *clsUI<T>::createPlayer(string &name, T symbol,
+                                     enPlayerType type) {
   // Create player based on type
   cout << "Creating " << (type == enPlayerType::HUMAN ? "human" : "computer")
        << " player: " << name << " (" << symbol << ")\n";

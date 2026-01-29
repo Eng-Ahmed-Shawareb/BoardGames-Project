@@ -10,7 +10,7 @@ private:
 public:
   clsFourInRowBoard();
 
-  bool isValidMove(int y);
+  bool isValidMove(const int &y) const;
 
   bool updateBoard(clsMove<char> *move) override;
 

@@ -9,9 +9,10 @@ public:
 
   ~clsXOUI(){};
 
-  clsPlayer<char> *createPlayer(string &name, char symbol, enPlayerType type);
+  clsPlayer<char> *createPlayer(string &name, char symbol,
+                                enPlayerType type) override;
 
-  clsMove<char> *getMove(clsPlayer<char> *player);
+  clsMove<char> *getMove(clsPlayer<char> *player) override;
 };
 
 #endif

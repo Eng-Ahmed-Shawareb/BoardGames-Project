@@ -12,7 +12,7 @@ clsFourInRowBoard::clsFourInRowBoard() : clsBoard(6, 7) {
   }
 }
 
-bool clsFourInRowBoard::isValidMove(int y) {
+bool clsFourInRowBoard::isValidMove(const int &y) const {
   if (y < 0 || y > 6)
     return false;
 

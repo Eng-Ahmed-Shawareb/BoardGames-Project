@@ -10,15 +10,15 @@ private:
 public:
   clsXOBoard();
 
-  bool updateBoard(clsMove<char> *move);
+  bool updateBoard(clsMove<char> *move) override;
 
-  bool isWin(clsPlayer<char> *player);
+  bool isWin(clsPlayer<char> *player) override;
 
-  bool isLose(clsPlayer<char> *player);
+  bool isLose(clsPlayer<char> *player) override;
 
-  bool isDraw(clsPlayer<char> *player);
+  bool isDraw(clsPlayer<char> *player) override;
 
-  bool gameIsOver(clsPlayer<char> *player);
+  bool gameIsOver(clsPlayer<char> *player) override;
 };
 
 #endif

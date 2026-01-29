@@ -3,7 +3,7 @@
 clsSUSAIPlayer::clsSUSAIPlayer(string name, char symbol)
     : clsPlayer<char>(name, symbol, enPlayerType::COMPUTER){};
 
-clsMove<char> *clsSUSAIPlayer::getBestMove() {
+clsMove<char> *clsSUSAIPlayer::getBestMove() const {
 
   clsSUSBoard *testBoard = new clsSUSBoard();
   *testBoard = *(dynamic_cast<clsSUSBoard *>(getBoardPtr()));
@@ -36,7 +36,7 @@ clsMove<char> *clsSUSAIPlayer::getBestMove() {
   return bestMove;
 }
 
-int clsSUSAIPlayer::_minMax(clsSUSBoard *currentBoard, bool isMax) {
+int clsSUSAIPlayer::_minMax(clsSUSBoard *currentBoard, bool isMax) const {
   // base case
   char humanSymbol = (getSymbol() == 'S') ? 'U' : 'S';
   clsPlayer<char> AIPlayer("AI", getSymbol(), enPlayerType::COMPUTER);

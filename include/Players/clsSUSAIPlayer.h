@@ -6,12 +6,12 @@
 
 class clsSUSAIPlayer : public clsPlayer<char> {
 private:
-  int _minMax(clsSUSBoard *currentBoard, bool isMax);
+  int _minMax(clsSUSBoard *currentBoard, bool isMax) const;
 
 public:
   clsSUSAIPlayer(string name, char symbol);
 
-  clsMove<char> *getBestMove();
+  clsMove<char> *getBestMove() const;
 };
 
 #endif

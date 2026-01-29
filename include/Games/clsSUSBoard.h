@@ -11,9 +11,9 @@ private:
 public:
   clsSUSBoard();
 
-  pair<int, int> calculatePlayersScore();
+  pair<int, int> calculatePlayersScore() const;
 
-  bool isValidMove(int x, int y);
+  bool isValidMove(const int &x, const int &y) const;
 
   bool isWin(clsPlayer<char> *player) override;
 
