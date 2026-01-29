@@ -3,15 +3,15 @@
 
 #include "BoardGame_Classes.h"
 
-class clsXOUI : public UI<char> {
+class clsXOUI : public clsUI<char> {
 public:
   clsXOUI();
 
   ~clsXOUI(){};
 
-  Player<char> *create_player(string &name, char symbol, PlayerType type);
+  clsPlayer<char> *createPlayer(string &name, char symbol, enPlayerType type);
 
-  Move<char> *get_move(Player<char> *player);
+  clsMove<char> *getMove(clsPlayer<char> *player);
 };
 
 #endif

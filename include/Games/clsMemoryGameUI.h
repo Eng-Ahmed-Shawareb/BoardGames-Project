@@ -3,17 +3,17 @@
 
 #include "BoardGame_Classes.h"
 
-class clsMemoryGameUI : public UI<char> {
+class clsMemoryGameUI : public clsUI<char> {
 public:
   clsMemoryGameUI();
 
   ~clsMemoryGameUI(){};
 
-  Player<char> *create_player(string &name, char symbol, PlayerType type);
+  clsPlayer<char> *createPlayer(string &name, char symbol, enPlayerType type);
 
-  Move<char> *get_move(Player<char> *player);
+  clsMove<char> *getMove(clsPlayer<char> *player);
 
-  void display_board_matrix(const vector<vector<char>> &matrix) const override;
+  void displayBoardMatrix(const vector<vector<char>> &matrix) const override;
 };
 
 #endif

@@ -4,15 +4,15 @@
 #include "BoardGame_Classes.h"
 #include "clsFourInRowBoard.h"
 
-class clsFourInRowAIPlayer : public Player<char> {
+class clsFourInRowAIPlayer : public clsPlayer<char> {
 private:
-  int _minMax(Board<char> *currentBoard, bool isMax, int depth, int alpha,
+  int _minMax(clsBoard<char> *currentBoard, bool isMax, int depth, int alpha,
               int beta);
 
 public:
   clsFourInRowAIPlayer(string name, char symbol);
 
-  Move<char> *getBestMove();
+  clsMove<char> *getBestMove();
 };
 
 #endif

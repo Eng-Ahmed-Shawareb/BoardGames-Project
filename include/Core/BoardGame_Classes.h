@@ -4,8 +4,8 @@
 // Author: Mohammad El-Ramly
 // Putpose: Core classes to build board XO-style games (x-o, connect4, etc)
 
-#ifndef _BOARDGAME_CLASSES_H
-#define _BOARDGAME_CLASSES_H
+#ifndef BOARDGAME_CLASSES_H
+#define BOARDGAME_CLASSES_H
 
 #include <iomanip>
 #include <iostream>
@@ -18,8 +18,8 @@ using namespace std;
 // Forward declarations
 /////////////////////////////////////////////////////////////
 
-template <typename T> class Player;
-template <typename T> class Move;
+template <typename T> class clsPlayer;
+template <typename T> class clsMove;
 
 /////////////////////////////////////////////////////////////
 // Class declarations
@@ -28,7 +28,7 @@ template <typename T> class Move;
 /**
  * @brief Represents the type of player in the game.
  */
-enum class PlayerType {
+enum class enPlayerType {
   HUMAN,    ///< A human player.
   COMPUTER, ///< A computer-controlled player.
   AI,       ///< An AI player.
@@ -43,60 +43,60 @@ enum class PlayerType {
  * Provides core data (rows, columns, matrix) and virtual methods to be
  * implemented by specific games like Tic-Tac-Toe, Connect4, etc.
  */
-template <typename T> class Board {
+template <typename T> class clsBoard {
 protected:
   int rows;                ///< Number of rows
   int columns;             ///< Number of columns
-  vector<vector<T>> board; ///< 2D vector for the board
-  int n_moves = 0;         ///< Number of moves made
+  vector<vector<T>> vBoard; ///< 2D vector for the board
+  int nMoves = 0;         ///< Number of moves made
 
 public:
   /**
    * @brief Construct a board with given dimensions.
    */
-  Board(int rows, int columns)
-      : rows(rows), columns(columns), board(rows, vector<T>(columns)) {}
+  clsBoard(int rows, int columns)
+      : rows(rows), columns(columns), vBoard(rows, vector<T>(columns)) {}
 
   /**
    * @brief Virtual destructor. Frees allocated board memory.
    */
-  virtual ~Board() {}
+  virtual ~clsBoard() {}
 
   /**
    * @brief Update the board with a new move.
    * @param move The move object containing position and symbol.
    * @return true if the move is valid and applied, false otherwise.
    */
-  virtual bool update_board(Move<T> *move) = 0;
+  virtual bool updateBoard(clsMove<T> *move) = 0;
 
   /** @brief Check if a player has won. */
-  virtual bool is_win(Player<T> *) = 0;
+  virtual bool isWin(clsPlayer<T> *) = 0;
 
   /** @brief Check if a player has lost. */
-  virtual bool is_lose(Player<T> *) = 0;
+  virtual bool isLose(clsPlayer<T> *) = 0;
 
   /** @brief Check if the game ended in a draw. */
-  virtual bool is_draw(Player<T> *) = 0;
+  virtual bool isDraw(clsPlayer<T> *) = 0;
 
   /** @brief Check if the game is over. */
-  virtual bool game_is_over(Player<T> *) = 0;
+  virtual bool gameIsOver(clsPlayer<T> *) = 0;
 
   /**
    * @brief Return a copy of the current board as a 2D vector.
    */
-  vector<vector<T>> get_board_matrix() const { return board; }
+  vector<vector<T>> getBoardMatrix() const { return vBoard; }
 
   /** @brief Get number of rows. */
-  int get_rows() const { return rows; }
+  int getRows() const { return rows; }
 
   /** @brief Get number of columns. */
-  int get_columns() const { return columns; }
+  int getColumns() const { return columns; }
 
   /** @brief Get number of moves. */
-  int get_n_moves() const { return n_moves; }
+  int getNMoves() const { return nMoves; }
 
   /** @brief Return content of cell x, y in current board. */
-  T get_cell(int x, int y) { return board[x][y]; }
+  T getCell(int x, int y) { return vBoard[x][y]; }
 };
 
 //-----------------------------------------------------
@@ -105,23 +105,23 @@ public:
  *
  * @tparam T Type of symbol placed on the board (e.g., char, int).
  */
-template <typename T> class Move {
-  int x;    ///< Row index
-  int y;    ///< Column index
-  T symbol; ///< Symbol used in the move
+template <typename T> class clsMove {
+  int _x;    ///< Row index
+  int _y;    ///< Column index
+  T _symbol; ///< Symbol used in the move
 
 public:
   /** @brief Construct a move at (x, y) using a symbol. */
-  Move(int x, int y, T symbol) : x(x), y(y), symbol(symbol) {}
+  clsMove(int x, int y, T symbol) : _x(x), _y(y), _symbol(symbol) {}
 
   /** @brief Get row index. */
-  int get_x() const { return x; }
+  int getX() const { return _x; }
 
   /** @brief Get column index. */
-  int get_y() const { return y; }
+  int getY() const { return _y; }
 
   /** @brief Get the move symbol. */
-  T get_symbol() const { return symbol; }
+  T getSymbol() const { return _symbol; }
 };
 
 //-----------------------------------------------------
@@ -130,36 +130,36 @@ public:
  *
  * @tparam T Type of symbol used by the player.
  */
-template <typename T> class Player {
+template <typename T> class clsPlayer {
 protected:
   string name;        ///< Player name
-  PlayerType type;    ///< Player type (e.g., HUMAN or COMPUTER)
-  T symbol;           ///< Player�s symbol on board
-  Board<T> *boardPtr; ///< Pointer to the game board
+  enPlayerType type;    ///< Player type (e.g., HUMAN or COMPUTER)
+  T symbol;           ///< Player's symbol on board
+  clsBoard<T> *boardPtr; ///< Pointer to the game board
 
 public:
   /**
    * @brief Construct a player with name, symbol, and type.
    */
-  Player(string n, T s, PlayerType t)
+  clsPlayer(string n, T s, enPlayerType t)
       : name(n), symbol(s), type(t), boardPtr(nullptr) {}
 
-  virtual ~Player() {}
+  virtual ~clsPlayer() {}
 
   /** @brief Get the player's name. */
-  string get_name() const { return name; }
+  string getName() const { return name; }
 
   /** @brief Get player type (e.g., 'H' or 'C'). */
-  PlayerType get_type() const { return type; }
+  enPlayerType getType() const { return type; }
 
   /** @brief Get the player's symbol. */
-  T get_symbol() const { return symbol; }
+  T getSymbol() const { return symbol; }
 
   /** @brief Get a pointer to the game board. */
-  Board<T> *get_board_ptr() const { return boardPtr; }
+  clsBoard<T> *getBoardPtr() const { return boardPtr; }
 
   /** @brief Assign the board pointer for the player. */
-  void set_board_ptr(Board<T> *b) { boardPtr = b; }
+  void setBoardPtr(clsBoard<T> *b) { boardPtr = b; }
 };
 
 //-----------------------------------------------------
@@ -168,16 +168,16 @@ public:
  *
  * @tparam T The type of symbol used on the board.
  */
-template <typename T> class UI {
+template <typename T> class clsUI {
 protected:
-  int cell_width; ///< Width of each displayed board cell
+  int cellWidth; ///< Width of each displayed board cell
 
   /**
    * @brief Ask the user for the player's name.
    */
-  virtual string get_player_name(string player_label) {
+  virtual string getPlayerName(string playerLabel) {
     string name;
-    cout << "Enter " << player_label << " name: ";
+    cout << "Enter " << playerLabel << " name: ";
     getline(cin >> ws, name);
     return name;
   }
@@ -185,54 +185,54 @@ protected:
   /**
    * @brief Ask the user to choose the player type from a list.
    */
-  virtual PlayerType get_player_type_choice(string player_label,
+  virtual enPlayerType getPlayerTypeChoice(string playerLabel,
                                             const vector<string> &options) {
-    cout << "Choose " << player_label << " type:\n";
+    cout << "Choose " << playerLabel << " type:\n";
     for (size_t i = 0; i < options.size(); ++i)
       cout << i + 1 << ". " << options[i] << "\n";
     int choice;
     cin >> choice;
-    return (choice == 2) ? PlayerType::COMPUTER : PlayerType::HUMAN;
+    return (choice == 2) ? enPlayerType::COMPUTER : enPlayerType::HUMAN;
   }
 
 public:
   /**
    * @brief Construct the UI and display a welcome message.
    */
-  UI(int cell_display_width = 3) : cell_width(cell_display_width) {}
+  clsUI(int cellDisplayWidth = 3) : cellWidth(cellDisplayWidth) {}
 
   /**
    * @brief Construct the UI and display a welcome message.
    */
-  UI(string message, int cell_display_width) : cell_width(cell_display_width) {
+  clsUI(string message, int cellDisplayWidth) : cellWidth(cellDisplayWidth) {
     cout << message << endl;
   }
 
-  virtual ~UI() {}
+  virtual ~clsUI() {}
 
   /** @brief Display any message to the user. */
-  virtual void display_message(string message) { cout << message << "\n"; }
+  virtual void displayMessage(string message) { cout << message << "\n"; }
 
   /**
    * @brief Ask the user (or AI) to make a move.
    */
-  virtual Move<T> *get_move(Player<T> *) = 0;
+  virtual clsMove<T> *getMove(clsPlayer<T> *) = 0;
 
   /**
    * @brief Set up players for the game.
    */
-  virtual Player<T> **setup_players();
+  virtual clsPlayer<T> **setupPlayers();
 
   /**
    * @brief Create a player object based on input name, symbol, and type.
    */
-  virtual Player<T> *create_player(string &name, T symbol, PlayerType type);
+  virtual clsPlayer<T> *createPlayer(string &name, T symbol, enPlayerType type);
 
   /**
    * @brief Display the current board matrix in formatted form.
    */
 
-  virtual void display_board_matrix(const vector<vector<T>> &matrix) const {
+  virtual void displayBoardMatrix(const vector<vector<T>> &matrix) const {
     if (matrix.empty() || matrix[0].empty())
       return;
 
@@ -241,14 +241,14 @@ public:
 
     cout << "\n    ";
     for (int j = 0; j < cols; ++j)
-      cout << setw(cell_width + 1) << j;
-    cout << "\n   " << string((cell_width + 2) * cols, '-') << "\n";
+      cout << setw(cellWidth + 1) << j;
+    cout << "\n   " << string((cellWidth + 2) * cols, '-') << "\n";
 
     for (int i = 0; i < rows; ++i) {
       cout << setw(2) << i << " |";
       for (int j = 0; j < cols; ++j)
-        cout << setw(cell_width) << matrix[i][j] << " |";
-      cout << "\n   " << string((cell_width + 2) * cols, '-') << "\n";
+        cout << setw(cellWidth) << matrix[i][j] << " |";
+      cout << "\n   " << string((cellWidth + 2) * cols, '-') << "\n";
     }
     cout << endl;
   }
@@ -260,49 +260,49 @@ public:
  *
  * @tparam T Type of symbol used on the board.
  */
-template <typename T> class GameManager {
-  Board<T> *boardPtr;    ///< Game board
-  Player<T> *players[2]; ///< Two players
-  UI<T> *ui;             ///< User interface
+template <typename T> class clsGameManager {
+  clsBoard<T> *_boardPtr;    ///< Game board
+  clsPlayer<T> *_players[2]; ///< Two players
+  clsUI<T> *_UI;             ///< User interface
 
 public:
   /**
    * @brief Construct a game manager with board, players, and UI.
    */
-  GameManager(Board<T> *b, Player<T> *p[2], UI<T> *u) : boardPtr(b), ui(u) {
-    players[0] = p[0];
-    players[1] = p[1];
-    players[0]->set_board_ptr(b);
-    players[1]->set_board_ptr(b);
+  clsGameManager(clsBoard<T> *b, clsPlayer<T> *p[2], clsUI<T> *u) : _boardPtr(b), _UI(u) {
+    _players[0] = p[0];
+    _players[1] = p[1];
+    _players[0]->setBoardPtr(b);
+    _players[1]->setBoardPtr(b);
   }
 
   /**
    * @brief Run the main game loop until someone wins or the game ends.
    */
   void run() {
-    ui->display_board_matrix(boardPtr->get_board_matrix());
-    Player<T> *currentPlayer = players[0];
+    _UI->displayBoardMatrix(_boardPtr->getBoardMatrix());
+    clsPlayer<T> *currentPlayer = _players[0];
 
     while (true) {
       for (int i : {0, 1}) {
-        currentPlayer = players[i];
-        Move<T> *move = ui->get_move(currentPlayer);
+        currentPlayer = _players[i];
+        clsMove<T> *move = _UI->getMove(currentPlayer);
 
-        while (!boardPtr->update_board(move))
-          move = ui->get_move(currentPlayer);
+        while (!_boardPtr->updateBoard(move))
+          move = _UI->getMove(currentPlayer);
 
-        ui->display_board_matrix(boardPtr->get_board_matrix());
+        _UI->displayBoardMatrix(_boardPtr->getBoardMatrix());
 
-        if (boardPtr->is_win(currentPlayer)) {
-          ui->display_message(currentPlayer->get_name() + " wins!");
+        if (_boardPtr->isWin(currentPlayer)) {
+          _UI->displayMessage(currentPlayer->getName() + " wins!");
           return;
         }
-        if (boardPtr->is_lose(currentPlayer)) {
-          ui->display_message(players[1 - i]->get_name() + " wins!");
+        if (_boardPtr->isLose(currentPlayer)) {
+          _UI->displayMessage(_players[1 - i]->getName() + " wins!");
           return;
         }
-        if (boardPtr->is_draw(currentPlayer)) {
-          ui->display_message("Draw!");
+        if (_boardPtr->isDraw(currentPlayer)) {
+          _UI->displayMessage("Draw!");
           return;
         }
       }
@@ -314,17 +314,17 @@ public:
 /**
  * @brief Default implementation of setting up two players.
  */
-template <typename T> Player<T> **UI<T>::setup_players() {
-  Player<T> **players = new Player<T> *[2];
-  vector<string> type_options = {"Human", "Computer"};
+template <typename T> clsPlayer<T> **clsUI<T>::setupPlayers() {
+  clsPlayer<T> **players = new clsPlayer<T> *[2];
+  vector<string> typeOptions = {"Human", "Computer"};
 
-  string nameX = get_player_name("Player X");
-  PlayerType typeX = get_player_type_choice("Player X", type_options);
-  players[0] = create_player(nameX, static_cast<T>('X'), typeX);
+  string nameX = getPlayerName("Player X");
+  enPlayerType typeX = getPlayerTypeChoice("Player X", typeOptions);
+  players[0] = createPlayer(nameX, static_cast<T>('X'), typeX);
 
-  string nameO = get_player_name("Player O");
-  PlayerType typeO = get_player_type_choice("Player O", type_options);
-  players[1] = create_player(nameO, static_cast<T>('O'), typeO);
+  string nameO = getPlayerName("Player O");
+  enPlayerType typeO = getPlayerTypeChoice("Player O", typeOptions);
+  players[1] = createPlayer(nameO, static_cast<T>('O'), typeO);
 
   return players;
 }
@@ -333,12 +333,12 @@ template <typename T> Player<T> **UI<T>::setup_players() {
  * @brief Default implementation of creating two players.
  */
 template <typename T>
-Player<T> *UI<T>::create_player(string &name, T symbol, PlayerType type) {
+clsPlayer<T> *clsUI<T>::createPlayer(string &name, T symbol, enPlayerType type) {
   // Create player based on type
-  cout << "Creating " << (type == PlayerType::HUMAN ? "human" : "computer")
+  cout << "Creating " << (type == enPlayerType::HUMAN ? "human" : "computer")
        << " player: " << name << " (" << symbol << ")\n";
 
-  return new Player<T>(name, symbol, type);
+  return new clsPlayer<T>(name, symbol, type);
 }
 
-#endif // _BOARDGAME_CLASSES_H
+#endif // BOARDGAME_CLASSES_H

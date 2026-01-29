@@ -3,7 +3,7 @@
 
 #include "BoardGame_Classes.h"
 
-class clsFourInRowBoard : public Board<char> {
+class clsFourInRowBoard : public clsBoard<char> {
 private:
   char _blankSymbol = '.';
 
@@ -12,15 +12,15 @@ public:
 
   bool isValidMove(int y);
 
-  bool update_board(Move<char> *move) override;
+  bool updateBoard(clsMove<char> *move) override;
 
-  bool is_win(Player<char> *player) override;
+  bool isWin(clsPlayer<char> *player) override;
 
-  bool is_lose(Player<char> *player) override;
+  bool isLose(clsPlayer<char> *player) override;
 
-  bool is_draw(Player<char> *player) override;
+  bool isDraw(clsPlayer<char> *player) override;
 
-  bool game_is_over(Player<char> *player) override;
+  bool gameIsOver(clsPlayer<char> *player) override;
 };
 
 #endif

@@ -1,18 +1,18 @@
 #include "clsNumericalAIPlayer.h"
 
 clsNumericalAIPlayer::clsNumericalAIPlayer(string name, int symbol)
-    : Player<int>(name, symbol, PlayerType::COMPUTER){};
+    : clsPlayer<int>(name, symbol, enPlayerType::COMPUTER){};
 
-Move<int> *clsNumericalAIPlayer::getBestMove() {
+clsMove<int> *clsNumericalAIPlayer::getBestMove() {
 
   clsNumericalBoard *testBoard = new clsNumericalBoard();
-  *testBoard = *(dynamic_cast<clsNumericalBoard *>(get_board_ptr()));
+  *testBoard = *(dynamic_cast<clsNumericalBoard *>(getBoardPtr()));
 
-  int numType = get_symbol();
+  int numType = getSymbol();
 
   vector<int> choices;
   int symbolIndex;
-  if (get_symbol() % 2) {
+  if (getSymbol() % 2) {
     for (auto &i : testBoard->sAvailableOddNumbers)
       choices.push_back(i);
   } else {
@@ -20,39 +20,39 @@ Move<int> *clsNumericalAIPlayer::getBestMove() {
       choices.push_back(i);
   }
 
-  Move<int> *bestMove = new Move<int>(0, 0, numType);
+  clsMove<int> *bestMove = new clsMove<int>(0, 0, numType);
   int bestScore = -1e5;
 
-  for (int i = 0; i < testBoard->get_rows(); ++i)
-    for (int j = 0; j < testBoard->get_columns(); ++j) {
-      if (testBoard->get_cell(i, j) == 0) {
+  for (int i = 0; i < testBoard->getRows(); ++i)
+    for (int j = 0; j < testBoard->getColumns(); ++j) {
+      if (testBoard->getCell(i, j) == 0) {
 
         for (int num : choices) {
-          Move<int> currentMove(i, j, num);
-          testBoard->update_board(&currentMove);
+          clsMove<int> currentMove(i, j, num);
+          testBoard->updateBoard(&currentMove);
 
-          (get_symbol() % 2) ? testBoard->sAvailableOddNumbers.erase(num)
-                             : testBoard->sAvailableEvenNumbers.erase(num);
+          (getSymbol() % 2) ? testBoard->sAvailableOddNumbers.erase(num)
+                            : testBoard->sAvailableEvenNumbers.erase(num);
 
           int score = _minMax(testBoard, 0, bestScore, 1e5, false);
 
-          Move<int> undoMove(i, j, 0);
-          testBoard->update_board(&undoMove);
+          clsMove<int> undoMove(i, j, 0);
+          testBoard->updateBoard(&undoMove);
 
-          (get_symbol() % 2) ? testBoard->sAvailableOddNumbers.insert(num)
-                             : testBoard->sAvailableEvenNumbers.insert(num);
+          (getSymbol() % 2) ? testBoard->sAvailableOddNumbers.insert(num)
+                            : testBoard->sAvailableEvenNumbers.insert(num);
 
           if (score > bestScore) {
             bestScore = score;
             delete bestMove;
-            bestMove = new Move<int>(i, j, num);
+            bestMove = new clsMove<int>(i, j, num);
           }
         }
       }
     }
-  (get_symbol() % 2)
-      ? testBoard->sAvailableOddNumbers.erase(bestMove->get_symbol())
-      : testBoard->sAvailableEvenNumbers.erase(bestMove->get_symbol());
+  (getSymbol() % 2)
+      ? testBoard->sAvailableOddNumbers.erase(bestMove->getSymbol())
+      : testBoard->sAvailableEvenNumbers.erase(bestMove->getSymbol());
   delete testBoard;
   return bestMove;
 }
@@ -61,9 +61,9 @@ int clsNumericalAIPlayer::_minMax(clsNumericalBoard *currentBoard, int depth,
                                   int alpha, int beta, bool isMax) {
   // base case
 
-  Player<int> tempPlayer("temp", 0, PlayerType::HUMAN);
+  clsPlayer<int> tempPlayer("temp", 0, enPlayerType::HUMAN);
 
-  if (currentBoard->is_win(&tempPlayer)) {
+  if (currentBoard->isWin(&tempPlayer)) {
 
     if (isMax) {
       return -10 - (100 - depth);
@@ -72,7 +72,7 @@ int clsNumericalAIPlayer::_minMax(clsNumericalBoard *currentBoard, int depth,
     }
   }
 
-  if (currentBoard->is_draw(&tempPlayer)) {
+  if (currentBoard->isDraw(&tempPlayer)) {
     return 0;
   }
 
@@ -80,14 +80,14 @@ int clsNumericalAIPlayer::_minMax(clsNumericalBoard *currentBoard, int depth,
     return 0;
 
   // transition
-  int humanType = (get_symbol() % 2 == 0) ? 1 : 0;
+  int humanType = (getSymbol() % 2 == 0) ? 1 : 0;
 
   if (isMax) {
     int maxScore = -1e5;
 
     vector<int> choices;
     int symbolIndex;
-    if (get_symbol() % 2) {
+    if (getSymbol() % 2) {
       for (auto &i : currentBoard->sAvailableOddNumbers)
         choices.push_back(i);
     } else {
@@ -95,25 +95,24 @@ int clsNumericalAIPlayer::_minMax(clsNumericalBoard *currentBoard, int depth,
         choices.push_back(i);
     }
 
-    for (int i = 0; i < currentBoard->get_rows(); ++i)
-      for (int j = 0; j < currentBoard->get_columns(); ++j) {
-        if (currentBoard->get_cell(i, j) == 0) {
+    for (int i = 0; i < currentBoard->getRows(); ++i)
+      for (int j = 0; j < currentBoard->getColumns(); ++j) {
+        if (currentBoard->getCell(i, j) == 0) {
 
           for (int num : choices) {
-            Move<int> currentMove(i, j, num);
-            currentBoard->update_board(&currentMove);
+            clsMove<int> currentMove(i, j, num);
+            currentBoard->updateBoard(&currentMove);
 
-            (get_symbol() % 2) ? currentBoard->sAvailableOddNumbers.erase(num)
-                               : currentBoard->sAvailableEvenNumbers.erase(num);
+            (getSymbol() % 2) ? currentBoard->sAvailableOddNumbers.erase(num)
+                              : currentBoard->sAvailableEvenNumbers.erase(num);
 
             int score = _minMax(currentBoard, depth + 1, alpha, beta, false);
 
-            Move<int> undoMove(i, j, 0);
-            currentBoard->update_board(&undoMove);
+            clsMove<int> undoMove(i, j, 0);
+            currentBoard->updateBoard(&undoMove);
 
-            (get_symbol() % 2)
-                ? currentBoard->sAvailableOddNumbers.insert(num)
-                : currentBoard->sAvailableEvenNumbers.insert(num);
+            (getSymbol() % 2) ? currentBoard->sAvailableOddNumbers.insert(num)
+                              : currentBoard->sAvailableEvenNumbers.insert(num);
 
             maxScore = max(maxScore, score);
 
@@ -141,21 +140,21 @@ int clsNumericalAIPlayer::_minMax(clsNumericalBoard *currentBoard, int depth,
         choices.push_back(i);
     }
 
-    for (int i = 0; i < currentBoard->get_rows(); ++i)
-      for (int j = 0; j < currentBoard->get_columns(); ++j) {
-        if (currentBoard->get_cell(i, j) == 0) {
+    for (int i = 0; i < currentBoard->getRows(); ++i)
+      for (int j = 0; j < currentBoard->getColumns(); ++j) {
+        if (currentBoard->getCell(i, j) == 0) {
 
           for (int num : choices) {
-            Move<int> currentMove(i, j, num);
-            currentBoard->update_board(&currentMove);
+            clsMove<int> currentMove(i, j, num);
+            currentBoard->updateBoard(&currentMove);
 
             (humanType % 2) ? currentBoard->sAvailableOddNumbers.erase(num)
                             : currentBoard->sAvailableEvenNumbers.erase(num);
 
             int score = _minMax(currentBoard, depth + 1, alpha, beta, true);
 
-            Move<int> undoMove(i, j, 0);
-            currentBoard->update_board(&undoMove);
+            clsMove<int> undoMove(i, j, 0);
+            currentBoard->updateBoard(&undoMove);
             (humanType % 2) ? currentBoard->sAvailableOddNumbers.insert(num)
                             : currentBoard->sAvailableEvenNumbers.insert(num);
 

@@ -3,22 +3,22 @@
 
 #include "BoardGame_Classes.h"
 
-class clsXOBoard : public Board<char> {
+class clsXOBoard : public clsBoard<char> {
 private:
   char _blankSymbol = '.';
 
 public:
   clsXOBoard();
 
-  bool update_board(Move<char> *move);
+  bool updateBoard(clsMove<char> *move);
 
-  bool is_win(Player<char> *player);
+  bool isWin(clsPlayer<char> *player);
 
-  bool is_lose(Player<char> *player);
+  bool isLose(clsPlayer<char> *player);
 
-  bool is_draw(Player<char> *player);
+  bool isDraw(clsPlayer<char> *player);
 
-  bool game_is_over(Player<char> *player);
+  bool gameIsOver(clsPlayer<char> *player);
 };
 
 #endif

@@ -3,16 +3,17 @@
 
 #include "BoardGame_Classes.h"
 #include "clsSUSBoard.h"
-class clsSUSUI : public UI<char> {
+
+class clsSUSUI : public clsUI<char> {
 public:
   clsSUSUI();
 
-  Move<char> *get_move(Player<char> *player) override;
+  clsMove<char> *getMove(clsPlayer<char> *player) override;
 
-  Player<char> *create_player(string &name, char symbol,
-                              PlayerType type) override;
+  clsPlayer<char> *createPlayer(string &name, char symbol,
+                                enPlayerType type) override;
 
-  Player<char> **setup_players() override;
+  clsPlayer<char> **setupPlayers() override;
 };
 
 #endif

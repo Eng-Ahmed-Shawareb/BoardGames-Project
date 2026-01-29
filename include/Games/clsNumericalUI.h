@@ -8,18 +8,18 @@
 
 using namespace std;
 
-class clsNumericalUI : public UI<int> {
+class clsNumericalUI : public clsUI<int> {
 public:
   clsNumericalUI();
 
   void printAvailableNumbers(clsNumericalBoard *currentBoard, int numType);
 
-  Player<int> *create_player(string &name, int symbol,
-                             PlayerType type) override;
+  clsPlayer<int> *createPlayer(string &name, int symbol,
+                               enPlayerType type) override;
 
-  Move<int> *get_move(Player<int> *player) override;
+  clsMove<int> *getMove(clsPlayer<int> *player) override;
 
-  Player<int> **setup_players() override;
+  clsPlayer<int> **setupPlayers() override;
 };
 
 #endif

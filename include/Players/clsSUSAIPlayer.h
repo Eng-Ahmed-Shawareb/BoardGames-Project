@@ -4,14 +4,14 @@
 #include "BoardGame_Classes.h"
 #include "clsSUSBoard.h"
 
-class clsSUSAIPlayer : public Player<char> {
+class clsSUSAIPlayer : public clsPlayer<char> {
 private:
   int _minMax(clsSUSBoard *currentBoard, bool isMax);
 
 public:
   clsSUSAIPlayer(string name, char symbol);
 
-  Move<char> *getBestMove();
+  clsMove<char> *getBestMove();
 };
 
 #endif

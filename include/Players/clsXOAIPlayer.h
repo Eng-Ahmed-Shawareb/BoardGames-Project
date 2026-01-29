@@ -7,13 +7,13 @@
 
 using namespace std;
 
-class clsXOAIPlayer : public Player<char> {
+class clsXOAIPlayer : public clsPlayer<char> {
 private:
-  int _minMax(Board<char> *currentBoard, int depth, bool isMax);
+  int _minMax(clsBoard<char> *currentBoard, int depth, bool isMax);
 
 public:
   clsXOAIPlayer(string name, char symbol);
-  Move<char> *getBestMove();
+  clsMove<char> *getBestMove();
 };
 
 #endif

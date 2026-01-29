@@ -2,63 +2,63 @@
 #include "BoardGame_Classes.h"
 #include <iostream>
 
-clsXOBoard::clsXOBoard() : Board(3, 3) {
-  for (auto &row : board)
+clsXOBoard::clsXOBoard() : clsBoard(3, 3) {
+  for (auto &row : vBoard)
     for (auto &cell : row)
       cell = _blankSymbol;
 }
 
-bool clsXOBoard::update_board(Move<char> *move) {
-  int x = move->get_x();
-  int y = move->get_y();
-  char mark = move->get_symbol();
+bool clsXOBoard::updateBoard(clsMove<char> *move) {
+  int x = move->getX();
+  int y = move->getY();
+  char mark = move->getSymbol();
 
   // Validate move and apply if valid
   if (!(x < 0 || x >= rows || y < 0 || y >= columns) &&
-      (board[x][y] == _blankSymbol || mark == 0)) {
+      (vBoard[x][y] == _blankSymbol || mark == 0)) {
 
     if (mark == 0) {
-      n_moves--;
-      board[x][y] = _blankSymbol;
+      nMoves--;
+      vBoard[x][y] = _blankSymbol;
     } else {
-      n_moves++;
-      board[x][y] = toupper(mark);
+      nMoves++;
+      vBoard[x][y] = toupper(mark);
     }
     return true;
   }
   return false;
 }
 
-bool clsXOBoard::is_win(Player<char> *player) {
-  const char symbol = player->get_symbol();
+bool clsXOBoard::isWin(clsPlayer<char> *player) {
+  const char symbol = player->getSymbol();
 
   auto allEqual = [&](char a, char b, char c) {
     return a == b && b == c && a != _blankSymbol;
   };
 
   for (int i = 0; i < rows; ++i) {
-    if ((allEqual(board[i][0], board[i][1], board[i][2]) &&
-         board[i][0] == symbol) ||
-        (allEqual(board[0][i], board[1][i], board[2][i]) &&
-         board[0][i] == symbol))
+    if ((allEqual(vBoard[i][0], vBoard[i][1], vBoard[i][2]) &&
+         vBoard[i][0] == symbol) ||
+        (allEqual(vBoard[0][i], vBoard[1][i], vBoard[2][i]) &&
+         vBoard[0][i] == symbol))
       return true;
   }
-  if ((allEqual(board[0][0], board[1][1], board[2][2]) &&
-       board[1][1] == symbol) ||
-      (allEqual(board[0][2], board[1][1], board[2][0]) &&
-       board[1][1] == symbol))
+  if ((allEqual(vBoard[0][0], vBoard[1][1], vBoard[2][2]) &&
+       vBoard[1][1] == symbol) ||
+      (allEqual(vBoard[0][2], vBoard[1][1], vBoard[2][0]) &&
+       vBoard[1][1] == symbol))
     return true;
 
   return false;
 }
 
-bool clsXOBoard::is_draw(Player<char> *player) {
-  return (n_moves == 9 && !is_win(player));
+bool clsXOBoard::isDraw(clsPlayer<char> *player) {
+  return (nMoves == 9 && !isWin(player));
 }
 
-bool clsXOBoard::is_lose(Player<char> *player) {
+bool clsXOBoard::isLose(clsPlayer<char> *player) {
   char symbol;
-  if (player->get_symbol() == 'X')
+  if (player->getSymbol() == 'X')
     symbol = 'O';
   else
     symbol = 'X';
@@ -68,21 +68,21 @@ bool clsXOBoard::is_lose(Player<char> *player) {
   };
 
   for (int i = 0; i < rows; ++i) {
-    if ((allEqual(board[i][0], board[i][1], board[i][2]) &&
-         board[i][0] == symbol) ||
-        (allEqual(board[0][i], board[1][i], board[2][i]) &&
-         board[0][i] == symbol))
+    if ((allEqual(vBoard[i][0], vBoard[i][1], vBoard[i][2]) &&
+         vBoard[i][0] == symbol) ||
+        (allEqual(vBoard[0][i], vBoard[1][i], vBoard[2][i]) &&
+         vBoard[0][i] == symbol))
       return true;
   }
-  if ((allEqual(board[0][0], board[1][1], board[2][2]) &&
-       board[1][1] == symbol) ||
-      (allEqual(board[0][2], board[1][1], board[2][0]) &&
-       board[1][1] == symbol))
+  if ((allEqual(vBoard[0][0], vBoard[1][1], vBoard[2][2]) &&
+       vBoard[1][1] == symbol) ||
+      (allEqual(vBoard[0][2], vBoard[1][1], vBoard[2][0]) &&
+       vBoard[1][1] == symbol))
     return true;
 
   return false;
 }
 
-bool clsXOBoard::game_is_over(Player<char> *player) {
-  return is_win(player) || is_draw(player);
+bool clsXOBoard::gameIsOver(clsPlayer<char> *player) {
+  return isWin(player) || isDraw(player);
 }

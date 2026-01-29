@@ -2,32 +2,32 @@
 using namespace std;
 
 clsXOAIPlayer::clsXOAIPlayer(string name, char symbol)
-    : Player<char>(name, symbol, PlayerType::COMPUTER) {}
+    : clsPlayer<char>(name, symbol, enPlayerType::COMPUTER) {}
 
-Move<char> *clsXOAIPlayer::getBestMove() {
+clsMove<char> *clsXOAIPlayer::getBestMove() {
 
   clsXOBoard *testBoard = new clsXOBoard();
-  *testBoard = *(dynamic_cast<clsXOBoard *>(get_board_ptr()));
+  *testBoard = *(dynamic_cast<clsXOBoard *>(getBoardPtr()));
 
-  Move<char> *bestMove = new Move<char>(-1, -1, get_symbol());
+  clsMove<char> *bestMove = new clsMove<char>(-1, -1, getSymbol());
   int bestScore = -1e5;
-  for (int i = 0; i < testBoard->get_rows(); ++i)
-    for (int j = 0; j < testBoard->get_columns(); ++j) {
+  for (int i = 0; i < testBoard->getRows(); ++i)
+    for (int j = 0; j < testBoard->getColumns(); ++j) {
 
-      if (testBoard->get_cell(i, j) == '.') {
+      if (testBoard->getCell(i, j) == '.') {
 
-        Move<char> currentMove(i, j, get_symbol());
-        testBoard->update_board(&currentMove);
+        clsMove<char> currentMove(i, j, getSymbol());
+        testBoard->updateBoard(&currentMove);
 
         int score = _minMax(testBoard, 0, false);
 
-        Move<char> undoMove(i, j, 0);
-        testBoard->update_board(&undoMove);
+        clsMove<char> undoMove(i, j, 0);
+        testBoard->updateBoard(&undoMove);
 
         if (score > bestScore) {
           bestScore = score;
           delete bestMove;
-          bestMove = new Move<char>(i, j, get_symbol());
+          bestMove = new clsMove<char>(i, j, getSymbol());
         }
       }
     }
@@ -36,18 +36,19 @@ Move<char> *clsXOAIPlayer::getBestMove() {
   return bestMove;
 }
 
-int clsXOAIPlayer::_minMax(Board<char> *currentBoard, int depth, bool isMax) {
+int clsXOAIPlayer::_minMax(clsBoard<char> *currentBoard, int depth,
+                           bool isMax) {
   // base case
-  char humanSymbol = (get_symbol() == 'X') ? 'O' : 'X';
-  Player<char> humanPlayer("human", humanSymbol, PlayerType::HUMAN);
+  char humanSymbol = (getSymbol() == 'X') ? 'O' : 'X';
+  clsPlayer<char> humanPlayer("human", humanSymbol, enPlayerType::HUMAN);
 
-  if (currentBoard->is_win(this)) {
+  if (currentBoard->isWin(this)) {
     return 10 - depth;
   }
-  if (currentBoard->is_win(&humanPlayer)) {
+  if (currentBoard->isWin(&humanPlayer)) {
     return -10 + depth;
   }
-  if (currentBoard->is_draw(this)) {
+  if (currentBoard->isDraw(this)) {
     return 0;
   }
 
@@ -55,14 +56,14 @@ int clsXOAIPlayer::_minMax(Board<char> *currentBoard, int depth, bool isMax) {
   if (isMax) {
     int maxScore = -1e5;
 
-    for (int i = 0; i < currentBoard->get_rows(); ++i)
-      for (int j = 0; j < currentBoard->get_columns(); ++j) {
-        if (currentBoard->get_cell(i, j) == '.') {
-          Move<char> currentMove(i, j, get_symbol());
-          currentBoard->update_board(&currentMove);
+    for (int i = 0; i < currentBoard->getRows(); ++i)
+      for (int j = 0; j < currentBoard->getColumns(); ++j) {
+        if (currentBoard->getCell(i, j) == '.') {
+          clsMove<char> currentMove(i, j, getSymbol());
+          currentBoard->updateBoard(&currentMove);
           int score = _minMax(currentBoard, depth + 1, false);
-          Move<char> undoMove(i, j, 0);
-          currentBoard->update_board(&undoMove);
+          clsMove<char> undoMove(i, j, 0);
+          currentBoard->updateBoard(&undoMove);
           maxScore = max(score, maxScore);
         }
       }
@@ -70,15 +71,15 @@ int clsXOAIPlayer::_minMax(Board<char> *currentBoard, int depth, bool isMax) {
   } else {
     int minScore = 1e5;
 
-    for (int i = 0; i < currentBoard->get_rows(); ++i)
-      for (int j = 0; j < currentBoard->get_columns(); ++j) {
+    for (int i = 0; i < currentBoard->getRows(); ++i)
+      for (int j = 0; j < currentBoard->getColumns(); ++j) {
 
-        if (currentBoard->get_cell(i, j) == '.') {
-          Move<char> currentMove(i, j, humanSymbol);
-          currentBoard->update_board(&currentMove);
+        if (currentBoard->getCell(i, j) == '.') {
+          clsMove<char> currentMove(i, j, humanSymbol);
+          currentBoard->updateBoard(&currentMove);
           int score = _minMax(currentBoard, depth + 1, true);
-          Move<char> undoMove(i, j, 0);
-          currentBoard->update_board(&undoMove);
+          clsMove<char> undoMove(i, j, 0);
+          currentBoard->updateBoard(&undoMove);
           minScore = min(score, minScore);
         }
       }

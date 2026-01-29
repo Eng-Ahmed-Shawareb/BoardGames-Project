@@ -1,35 +1,35 @@
 #include "clsFourInRowAIPlayer.h"
 
 clsFourInRowAIPlayer::clsFourInRowAIPlayer(string name, char symbol)
-    : Player<char>(name, symbol, PlayerType::COMPUTER) {}
+    : clsPlayer<char>(name, symbol, enPlayerType::COMPUTER) {}
 
-Move<char> *clsFourInRowAIPlayer::getBestMove() {
+clsMove<char> *clsFourInRowAIPlayer::getBestMove() {
 
   clsFourInRowBoard *testBoard = new clsFourInRowBoard();
-  *testBoard = *(dynamic_cast<clsFourInRowBoard *>(get_board_ptr()));
+  *testBoard = *(dynamic_cast<clsFourInRowBoard *>(getBoardPtr()));
 
   int bestScore = -1e5;
 
-  Move<char> *bestMove = new Move<char>(0, 0, get_symbol());
+  clsMove<char> *bestMove = new clsMove<char>(0, 0, getSymbol());
 
   int columnOrder[] = {3, 2, 4, 1, 5, 0, 6};
 
   for (int idx = 0; idx < 7; ++idx) {
     int i = columnOrder[idx];
 
-    if (testBoard->get_cell(0, i) == '.') {
-      Move<char> currentMove(0, i, get_symbol());
-      testBoard->update_board(&currentMove);
+    if (testBoard->getCell(0, i) == '.') {
+      clsMove<char> currentMove(0, i, getSymbol());
+      testBoard->updateBoard(&currentMove);
 
       int score = _minMax(testBoard, false, 0, bestScore, 1e5);
 
-      Move<char> undoMove(0, i, 0);
-      testBoard->update_board(&undoMove);
+      clsMove<char> undoMove(0, i, 0);
+      testBoard->updateBoard(&undoMove);
 
       if (score > bestScore) {
         bestScore = score;
         delete bestMove;
-        bestMove = new Move<char>(0, i, get_symbol());
+        bestMove = new clsMove<char>(0, i, getSymbol());
       }
     }
   }
@@ -38,22 +38,22 @@ Move<char> *clsFourInRowAIPlayer::getBestMove() {
   return bestMove;
 }
 
-int clsFourInRowAIPlayer::_minMax(Board<char> *currentBoard, bool isMax,
+int clsFourInRowAIPlayer::_minMax(clsBoard<char> *currentBoard, bool isMax,
                                   int depth, int alpha, int beta) {
   // base case
-  char humanSymbol = (get_symbol() == 'X') ? 'O' : 'X';
-  Player<char> AIPlayer("AI", get_symbol(), PlayerType::COMPUTER);
-  AIPlayer.set_board_ptr(currentBoard);
-  Player<char> human_player("human", humanSymbol, PlayerType::HUMAN);
-  human_player.set_board_ptr(currentBoard);
+  char humanSymbol = (getSymbol() == 'X') ? 'O' : 'X';
+  clsPlayer<char> AIPlayer("AI", getSymbol(), enPlayerType::COMPUTER);
+  AIPlayer.setBoardPtr(currentBoard);
+  clsPlayer<char> humanPlayer("human", humanSymbol, enPlayerType::HUMAN);
+  humanPlayer.setBoardPtr(currentBoard);
 
-  if (currentBoard->is_win(&AIPlayer)) {
+  if (currentBoard->isWin(&AIPlayer)) {
     return 10 + (100 - depth);
   }
-  if (currentBoard->is_win(&human_player)) {
+  if (currentBoard->isWin(&humanPlayer)) {
     return -10 - (100 - depth);
   }
-  if (currentBoard->is_draw(&AIPlayer)) {
+  if (currentBoard->isDraw(&AIPlayer)) {
     return 0;
   }
 
@@ -64,16 +64,16 @@ int clsFourInRowAIPlayer::_minMax(Board<char> *currentBoard, bool isMax,
   if (isMax) {
     int maxScore = -1e5;
 
-    for (int i = 0; i < currentBoard->get_columns(); ++i) {
+    for (int i = 0; i < currentBoard->getColumns(); ++i) {
 
-      if (currentBoard->get_cell(0, i) == '.') {
-        Move<char> currentMove(0, i, get_symbol());
-        currentBoard->update_board(&currentMove);
+      if (currentBoard->getCell(0, i) == '.') {
+        clsMove<char> currentMove(0, i, getSymbol());
+        currentBoard->updateBoard(&currentMove);
 
         int score = _minMax(currentBoard, false, depth + 1, alpha, beta);
 
-        Move<char> undoMove(0, i, 0);
-        currentBoard->update_board(&undoMove);
+        clsMove<char> undoMove(0, i, 0);
+        currentBoard->updateBoard(&undoMove);
 
         alpha = max(alpha, score);
 
@@ -89,16 +89,16 @@ int clsFourInRowAIPlayer::_minMax(Board<char> *currentBoard, bool isMax,
   } else {
     int minScore = 1e5;
 
-    for (int i = 0; i < currentBoard->get_columns(); ++i) {
+    for (int i = 0; i < currentBoard->getColumns(); ++i) {
 
-      if (currentBoard->get_cell(0, i) == '.') {
-        Move<char> currentMove(0, i, humanSymbol);
-        currentBoard->update_board(&currentMove);
+      if (currentBoard->getCell(0, i) == '.') {
+        clsMove<char> currentMove(0, i, humanSymbol);
+        currentBoard->updateBoard(&currentMove);
 
         int score = _minMax(currentBoard, true, depth + 1, alpha, beta);
 
-        Move<char> undoMove(0, i, 0);
-        currentBoard->update_board(&undoMove);
+        clsMove<char> undoMove(0, i, 0);
+        currentBoard->updateBoard(&undoMove);
 
         beta = min(beta, score);
 

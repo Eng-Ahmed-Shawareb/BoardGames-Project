@@ -7,7 +7,7 @@
 
 using namespace std;
 
-class clsNumericalBoard : public Board<int> {
+class clsNumericalBoard : public clsBoard<int> {
 
 private:
   int _blankSymbol = 0;
@@ -18,15 +18,15 @@ public:
   set<int> sAvailableEvenNumbers;
   set<int> sAvailableOddNumbers;
 
-  bool update_board(Move<int> *move) override;
+  bool updateBoard(clsMove<int> *move) override;
 
-  bool is_win(Player<int> *player) override;
+  bool isWin(clsPlayer<int> *player) override;
 
-  bool is_lose(Player<int> *player) override { return false; };
+  bool isLose(clsPlayer<int> *player) override { return false; };
 
-  bool is_draw(Player<int> *player) override;
+  bool isDraw(clsPlayer<int> *player) override;
 
-  bool game_is_over(Player<int> *player) override;
+  bool gameIsOver(clsPlayer<int> *player) override;
 
   ~clsNumericalBoard(){};
 };

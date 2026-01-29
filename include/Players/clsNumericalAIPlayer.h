@@ -4,7 +4,7 @@
 #include "BoardGame_Classes.h"
 #include "clsNumericalBoard.h"
 
-class clsNumericalAIPlayer : public Player<int> {
+class clsNumericalAIPlayer : public clsPlayer<int> {
 private:
   int _minMax(clsNumericalBoard *currentBoard, int depth, int alpha, int beta,
               bool isMax);
@@ -12,7 +12,7 @@ private:
 public:
   clsNumericalAIPlayer(string name, int symbol);
 
-  Move<int> *getBestMove();
+  clsMove<int> *getBestMove();
 };
 
 #endif

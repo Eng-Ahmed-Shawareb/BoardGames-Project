@@ -1,10 +1,9 @@
-
 #include "clsNumericalBoard.h"
 #include <iostream>
 using namespace std;
 
-clsNumericalBoard::clsNumericalBoard() : Board(3, 3) {
-  for (auto &row : board) {
+clsNumericalBoard::clsNumericalBoard() : clsBoard(3, 3) {
+  for (auto &row : vBoard) {
     for (auto &element : row) {
       element = _blankSymbol;
     }
@@ -13,34 +12,34 @@ clsNumericalBoard::clsNumericalBoard() : Board(3, 3) {
   sAvailableOddNumbers = {1, 3, 5, 7, 9};
 };
 
-bool clsNumericalBoard::update_board(Move<int> *move) {
-  int x = move->get_x();
-  int y = move->get_y();
-  int symbol = move->get_symbol();
+bool clsNumericalBoard::updateBoard(clsMove<int> *move) {
+  int x = move->getX();
+  int y = move->getY();
+  int symbol = move->getSymbol();
 
-  if (symbol == 0 && board[x][y] != _blankSymbol) {
-    n_moves--;
-    board[x][y] = _blankSymbol;
+  if (symbol == 0 && vBoard[x][y] != _blankSymbol) {
+    nMoves--;
+    vBoard[x][y] = _blankSymbol;
     return true;
   }
 
   if (x < 0 || y < 0 || x >= rows || y >= columns ||
-      board[x][y] != _blankSymbol)
+      vBoard[x][y] != _blankSymbol)
     return false;
   else {
-    n_moves++;
-    board[x][y] = symbol;
+    nMoves++;
+    vBoard[x][y] = symbol;
     return true;
   }
   return false;
 }
 
-bool clsNumericalBoard::is_win(Player<int> *player) {
+bool clsNumericalBoard::isWin(clsPlayer<int> *player) {
   for (int i = 0; i < rows; ++i) {
 
-    int sum = board[i][0] + board[i][1] + board[i][2];
+    int sum = vBoard[i][0] + vBoard[i][1] + vBoard[i][2];
 
-    if (board[i][0] == 0 || board[i][1] == 0 || board[i][2] == 0)
+    if (vBoard[i][0] == 0 || vBoard[i][1] == 0 || vBoard[i][2] == 0)
       sum = 0;
 
     if (sum == 15)
@@ -48,22 +47,22 @@ bool clsNumericalBoard::is_win(Player<int> *player) {
   }
   for (int i = 0; i < columns; ++i) {
 
-    int sum = board[0][i] + board[1][i] + board[2][i];
+    int sum = vBoard[0][i] + vBoard[1][i] + vBoard[2][i];
 
-    if (board[0][i] == 0 || board[1][i] == 0 || board[2][i] == 0)
+    if (vBoard[0][i] == 0 || vBoard[1][i] == 0 || vBoard[2][i] == 0)
       sum = 0;
 
     if (sum == 15)
       return true;
   }
-  int sumDiagonal1 = board[0][0] + board[1][1] + board[2][2];
+  int sumDiagonal1 = vBoard[0][0] + vBoard[1][1] + vBoard[2][2];
 
-  if (board[0][0] == 0 || board[1][1] == 0 || board[2][2] == 0)
+  if (vBoard[0][0] == 0 || vBoard[1][1] == 0 || vBoard[2][2] == 0)
     sumDiagonal1 = 0;
 
-  int sumDiagonal2 = board[0][2] + board[1][1] + board[2][0];
+  int sumDiagonal2 = vBoard[0][2] + vBoard[1][1] + vBoard[2][0];
 
-  if (board[0][2] == 0 || board[1][1] == 0 || board[2][0] == 0)
+  if (vBoard[0][2] == 0 || vBoard[1][1] == 0 || vBoard[2][0] == 0)
     sumDiagonal2 = 0;
 
   if (sumDiagonal1 == 15 || sumDiagonal2 == 15)
@@ -72,10 +71,10 @@ bool clsNumericalBoard::is_win(Player<int> *player) {
   return false;
 }
 
-bool clsNumericalBoard::is_draw(Player<int> *player) {
-  return (n_moves == 9 && !is_win(player));
+bool clsNumericalBoard::isDraw(clsPlayer<int> *player) {
+  return (nMoves == 9 && !isWin(player));
 }
 
-bool clsNumericalBoard::game_is_over(Player<int> *player) {
-  return (is_win(player) || is_draw(player));
+bool clsNumericalBoard::gameIsOver(clsPlayer<int> *player) {
+  return (isWin(player) || isDraw(player));
 }

@@ -5,7 +5,7 @@
 using namespace std;
 
 clsNumericalUI::clsNumericalUI()
-    : UI<int>("Welcome to my Numerical game!", 3){};
+    : clsUI<int>("Welcome to my Numerical game!", 3){};
 
 void clsNumericalUI::printAvailableNumbers(clsNumericalBoard *currentBoard,
                                            int numType) {
@@ -27,24 +27,24 @@ void clsNumericalUI::printAvailableNumbers(clsNumericalBoard *currentBoard,
   }
 }
 
-Player<int> *clsNumericalUI::create_player(string &name, int symbol,
-                                           PlayerType type) {
+clsPlayer<int> *clsNumericalUI::createPlayer(string &name, int symbol,
+                                             enPlayerType type) {
   string numType = (symbol == 1) ? "Odd" : "Even";
 
-  cout << "Creating " << (type == PlayerType::HUMAN ? "Human" : "Computer")
+  cout << "Creating " << (type == enPlayerType::HUMAN ? "Human" : "Computer")
        << " player : " << name << " (" << numType << ")" << endl;
-  if (type == PlayerType::COMPUTER) {
+  if (type == enPlayerType::COMPUTER) {
     return new clsNumericalAIPlayer(name, symbol);
   }
-  return new Player(name, symbol, type);
+  return new clsPlayer(name, symbol, type);
 }
 
-Move<int> *clsNumericalUI::get_move(Player<int> *player) {
+clsMove<int> *clsNumericalUI::getMove(clsPlayer<int> *player) {
   clsNumericalBoard *currentBoard =
-      dynamic_cast<clsNumericalBoard *>(player->get_board_ptr());
+      dynamic_cast<clsNumericalBoard *>(player->getBoardPtr());
   int x, y, symbol;
-  int numType = player->get_symbol();
-  if (player->get_type() == PlayerType::HUMAN) {
+  int numType = player->getSymbol();
+  if (player->getType() == enPlayerType::HUMAN) {
 
     if (numType % 2) {
       cout << "Please enter number from : ";
@@ -83,34 +83,34 @@ Move<int> *clsNumericalUI::get_move(Player<int> *player) {
 
   }
 
-  else if (player->get_type() == PlayerType::COMPUTER) {
+  else if (player->getType() == enPlayerType::COMPUTER) {
     clsNumericalAIPlayer *AIPlayer =
         dynamic_cast<clsNumericalAIPlayer *>(player);
     if (AIPlayer) {
 
-      Move<int> *AI_move = AIPlayer->getBestMove();
+      clsMove<int> *AI_move = AIPlayer->getBestMove();
       if (numType % 2) {
-        currentBoard->sAvailableOddNumbers.erase(AI_move->get_symbol());
+        currentBoard->sAvailableOddNumbers.erase(AI_move->getSymbol());
       } else {
-        currentBoard->sAvailableEvenNumbers.erase(AI_move->get_symbol());
+        currentBoard->sAvailableEvenNumbers.erase(AI_move->getSymbol());
       }
       return AI_move;
     }
   }
-  return new Move<int>(x, y, symbol);
+  return new clsMove<int>(x, y, symbol);
 }
 
-Player<int> **clsNumericalUI::setup_players() {
-  Player<int> **players = new Player<int> *[2];
+clsPlayer<int> **clsNumericalUI::setupPlayers() {
+  clsPlayer<int> **players = new clsPlayer<int> *[2];
   vector<string> vTypeOptions = {"Human", "Computer"};
 
-  string nameOdd = get_player_name("Odd player");
-  PlayerType typeOdd = get_player_type_choice("Odd player", vTypeOptions);
-  players[0] = create_player(nameOdd, static_cast<int>(1), typeOdd);
+  string nameOdd = getPlayerName("Odd player");
+  enPlayerType typeOdd = getPlayerTypeChoice("Odd player", vTypeOptions);
+  players[0] = createPlayer(nameOdd, static_cast<int>(1), typeOdd);
 
-  string nameEven = get_player_name("Even player");
-  PlayerType typeEven = get_player_type_choice("Even player", vTypeOptions);
-  players[1] = create_player(nameEven, static_cast<int>(0), typeEven);
+  string nameEven = getPlayerName("Even player");
+  enPlayerType typeEven = getPlayerTypeChoice("Even player", vTypeOptions);
+  players[1] = createPlayer(nameEven, static_cast<int>(0), typeEven);
 
   return players;
 }

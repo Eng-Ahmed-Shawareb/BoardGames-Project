@@ -17,13 +17,13 @@
 using namespace std;
 
 void clsAppController::playXOGame() {
-  UI<char> *gameUI = new clsXOUI();
+  clsUI<char> *gameUI = new clsXOUI();
 
-  Board<char> *XOBoard = new clsXOBoard();
+  clsBoard<char> *XOBoard = new clsXOBoard();
 
-  Player<char> **players = gameUI->setup_players();
+  clsPlayer<char> **players = gameUI->setupPlayers();
 
-  GameManager<char> XOGame(XOBoard, players, gameUI);
+  clsGameManager<char> XOGame(XOBoard, players, gameUI);
 
   XOGame.run();
 
@@ -40,13 +40,13 @@ void clsAppController::playXOGame() {
 
 void clsAppController::playNumericalGame() {
 
-  UI<int> *gameUI = new clsNumericalUI();
+  clsUI<int> *gameUI = new clsNumericalUI();
 
-  Board<int> *NumericalBoard = new clsNumericalBoard();
+  clsBoard<int> *NumericalBoard = new clsNumericalBoard();
 
-  Player<int> **players = gameUI->setup_players();
+  clsPlayer<int> **players = gameUI->setupPlayers();
 
-  GameManager<int> NumericalGame(NumericalBoard, players, gameUI);
+  clsGameManager<int> NumericalGame(NumericalBoard, players, gameUI);
 
   NumericalGame.run();
 
@@ -63,13 +63,13 @@ void clsAppController::playNumericalGame() {
 
 void clsAppController::playSUSGame() {
 
-  UI<char> *gameUI = new clsSUSUI();
+  clsUI<char> *gameUI = new clsSUSUI();
 
-  Board<char> *SUSBoard = new clsSUSBoard();
+  clsBoard<char> *SUSBoard = new clsSUSBoard();
 
-  Player<char> **players = gameUI->setup_players();
+  clsPlayer<char> **players = gameUI->setupPlayers();
 
-  GameManager<char> SUSGame(SUSBoard, players, gameUI);
+  clsGameManager<char> SUSGame(SUSBoard, players, gameUI);
 
   SUSGame.run();
 
@@ -85,13 +85,13 @@ void clsAppController::playSUSGame() {
 }
 
 void clsAppController::playFourInRowGame() {
-  UI<char> *gameUI = new clsFourInRowUI();
+  clsUI<char> *gameUI = new clsFourInRowUI();
 
-  Board<char> *FourInRowBoard = new clsFourInRowBoard();
+  clsBoard<char> *FourInRowBoard = new clsFourInRowBoard();
 
-  Player<char> **players = gameUI->setup_players();
+  clsPlayer<char> **players = gameUI->setupPlayers();
 
-  GameManager<char> FourInRowGame(FourInRowBoard, players, gameUI);
+  clsGameManager<char> FourInRowGame(FourInRowBoard, players, gameUI);
 
   FourInRowGame.run();
 
@@ -107,13 +107,13 @@ void clsAppController::playFourInRowGame() {
 }
 
 void clsAppController::playMemoryGame() {
-  UI<char> *gameUI = new clsMemoryGameUI();
+  clsUI<char> *gameUI = new clsMemoryGameUI();
 
-  Board<char> *MemoryGameBoard = new clsXOBoard();
+  clsBoard<char> *MemoryGameBoard = new clsXOBoard();
 
-  Player<char> **players = gameUI->setup_players();
+  clsPlayer<char> **players = gameUI->setupPlayers();
 
-  GameManager<char> MemoryGame(MemoryGameBoard, players, gameUI);
+  clsGameManager<char> MemoryGame(MemoryGameBoard, players, gameUI);
 
   MemoryGame.run();
 
