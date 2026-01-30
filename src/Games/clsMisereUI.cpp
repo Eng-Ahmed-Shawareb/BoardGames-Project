@@ -1,25 +1,25 @@
 #include "clsXOUI.h"
 #include "BoardGame_Classes.h"
 #include "clsInputValidate.h"
-#include "clsXOAIPlayer.h"
-#include "clsXOBoard.h"
+#include "clsMisereAIPlayer.h"
+#include "clsMisereUI.h"
 #include <algorithm>
 #include <iostream>
 #include <vector>
 
-clsXOUI::clsXOUI() : clsUI<char>("Welcome to my XO game!", 3) {}
+clsMisereUI::clsMisereUI() : clsUI<char>("Welcome to my Misère game!", 3) {}
 
-clsPlayer<char> *clsXOUI::createPlayer(string &name, char symbol,
+clsPlayer<char> *clsMisereUI::createPlayer(string &name, char symbol,
                                        enPlayerType type) {
   cout << "Creating " << (type == enPlayerType::HUMAN ? "human" : "computer")
        << endl;
   if (type == enPlayerType::COMPUTER) {
-    return new clsXOAIPlayer(name, symbol);
+    return new clsMisereAIPlayer(name, symbol);
   }
   return new clsPlayer<char>(name, symbol, type);
 }
 
-clsMove<char> *clsXOUI::getMove(clsPlayer<char> *player) {
+clsMove<char> *clsMisereUI::getMove(clsPlayer<char> *player) {
   int x, y;
 
   if (player->getType() == enPlayerType::HUMAN) {
@@ -30,7 +30,7 @@ clsMove<char> *clsXOUI::getMove(clsPlayer<char> *player) {
            << "Invalid input , Please enter your move x and y (0 to 2): ";
     }
   } else if (player->getType() == enPlayerType::COMPUTER) {
-    clsXOAIPlayer *AI_Player = dynamic_cast<clsXOAIPlayer *>(player);
+    clsMisereAIPlayer *AI_Player = dynamic_cast<clsMisereAIPlayer *>(player);
     if (AI_Player) {
       return AI_Player->getBestMove();
     }

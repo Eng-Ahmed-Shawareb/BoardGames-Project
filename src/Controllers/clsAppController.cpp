@@ -3,6 +3,8 @@
 #include "clsFourInRowBoard.h"
 #include "clsFourInRowUI.h"
 #include "clsMemoryGameUI.h"
+#include "clsMisereBoard.h"
+#include "clsMisereUI.h"
 #include "clsNumericalBoard.h"
 #include "clsNumericalUI.h"
 #include "clsSUSBoard.h"
@@ -118,6 +120,28 @@ void clsAppController::playMemoryGame() {
   MemoryGame.run();
 
   delete MemoryGameBoard;
+
+  for (int i = 0; i < 2; ++i) {
+    delete players[i];
+  }
+
+  delete gameUI;
+
+  delete[] players;
+}
+
+void clsAppController::playMisereGame() {
+  clsUI<char> *gameUI = new clsMisereUI();
+
+  clsBoard<char> *MisereGameBoard = new clsMisereBoard();
+
+  clsPlayer<char> **players = gameUI->setupPlayers();
+
+  clsGameManager<char> MemoryGame(MisereGameBoard, players, gameUI);
+
+  MemoryGame.run();
+
+  delete MisereGameBoard;
 
   for (int i = 0; i < 2; ++i) {
     delete players[i];

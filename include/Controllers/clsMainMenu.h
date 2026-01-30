@@ -9,7 +9,8 @@ private:
     NUMERICALGAME = 2,
     SUSGAME = 3,
     FOURINROWGAME = 4,
-    MEMORYGAME = 5
+    MEMORYGAME = 5,
+    MISEREGAME = 6
   };
 
 public:

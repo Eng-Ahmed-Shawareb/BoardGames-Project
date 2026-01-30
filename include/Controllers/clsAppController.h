@@ -11,6 +11,7 @@ public:
   static void playSUSGame();
   static void playFourInRowGame();
   static void playMemoryGame();
+  static void playMisereGame();
 };
 
 #endif

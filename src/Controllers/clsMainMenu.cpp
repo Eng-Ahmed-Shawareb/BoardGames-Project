@@ -27,6 +27,10 @@ void clsMainMenu::implementUserChoice(_enUserChoice choice) {
     system("clear");
     clsAppController::playMemoryGame();
     break;
+  case _enUserChoice::MISEREGAME:
+    system("clear");
+    clsAppController::playMisereGame();
+    break;
   }
 }
 
@@ -39,6 +43,7 @@ void clsMainMenu::printMainMenuScreen() {
   cout << "\t\t\t\t\t  " << "[3] SUS Game." << endl;
   cout << "\t\t\t\t\t  " << "[4] Four In Row Game." << endl;
   cout << "\t\t\t\t\t  " << "[5] XO Memory Game." << endl;
+  cout << "\t\t\t\t\t  " << "[6] XO Misère Game." << endl;
   cout << "\t\t\t\t" << "=============================================" << endl;
 }
 
@@ -49,9 +54,9 @@ void clsMainMenu::startBoardGameProgram() {
     system("clear");
     int choice;
     printMainMenuScreen();
-    cout << "\t\t\t\t" << "     Please enter your choice ? [1 : 5] ? " << endl;
-    while (!clsInputValidate::validIntegerInRange(choice, 1, 5)) {
-      cout << "Invalid choice. please enter another one ? [1 : 5] ? " << endl;
+    cout << "\t\t\t\t" << "     Please enter your choice ? [1 : 6] ? " << endl;
+    while (!clsInputValidate::validIntegerInRange(choice, 1, 6)) {
+      cout << "Invalid choice. please enter another one ? [1 : 6] ? " << endl;
     }
     implementUserChoice((_enUserChoice)choice);
     cout << "Good Game!" << endl;

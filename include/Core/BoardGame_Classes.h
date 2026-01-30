@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "clsInputValidate.h"
 
 using namespace std;
 
@@ -191,7 +192,9 @@ protected:
     for (size_t i = 0; i < options.size(); ++i)
       cout << i + 1 << ". " << options[i] << "\n";
     int choice;
-    cin >> choice;
+    while(!clsInputValidate::validIntegerInRange(choice , 1 , static_cast<int>(options.size()))){
+      cout << "Invalid input , Please enter the type number : " << endl;
+    }
     return (choice == 2) ? enPlayerType::COMPUTER : enPlayerType::HUMAN;
   }
 
