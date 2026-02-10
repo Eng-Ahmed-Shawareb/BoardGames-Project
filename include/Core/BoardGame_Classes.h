@@ -7,11 +7,11 @@
 #ifndef BOARDGAME_CLASSES_H
 #define BOARDGAME_CLASSES_H
 
+#include "clsInputValidate.h"
 #include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
-#include "clsInputValidate.h"
 
 using namespace std;
 
@@ -44,7 +44,9 @@ enum class enPlayerType {
  * Provides core data (rows, columns, matrix) and virtual methods to be
  * implemented by specific games like Tic-Tac-Toe, Connect4, etc.
  */
-template <typename T> class clsBoard {
+template <typename T> 
+
+class clsBoard {
 protected:
   int rows;                 ///< Number of rows
   int columns;              ///< Number of columns
@@ -106,7 +108,9 @@ public:
  *
  * @tparam T Type of symbol placed on the board (e.g., char, int).
  */
-template <typename T> class clsMove {
+template <typename T> 
+
+class clsMove {
   int _x;    ///< Row index
   int _y;    ///< Column index
   T _symbol; ///< Symbol used in the move
@@ -131,7 +135,9 @@ public:
  *
  * @tparam T Type of symbol used by the player.
  */
-template <typename T> class clsPlayer {
+template <typename T> 
+
+class clsPlayer {
 protected:
   string name;           ///< Player name
   enPlayerType type;     ///< Player type (e.g., HUMAN or COMPUTER)
@@ -169,7 +175,9 @@ public:
  *
  * @tparam T The type of symbol used on the board.
  */
-template <typename T> class clsUI {
+template <typename T>
+
+class clsUI {
 protected:
   int cellWidth; ///< Width of each displayed board cell
 
@@ -192,7 +200,8 @@ protected:
     for (size_t i = 0; i < options.size(); ++i)
       cout << i + 1 << ". " << options[i] << "\n";
     int choice;
-    while(!clsInputValidate::validIntegerInRange(choice , 1 , static_cast<int>(options.size()))){
+    while (!clsInputValidate::validIntegerInRange(
+        choice, 1, static_cast<int>(options.size()))) {
       cout << "Invalid input , Please enter the type number : " << endl;
     }
     return (choice == 2) ? enPlayerType::COMPUTER : enPlayerType::HUMAN;

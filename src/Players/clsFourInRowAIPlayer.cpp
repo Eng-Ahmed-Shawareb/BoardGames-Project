@@ -51,7 +51,7 @@ int clsFourInRowAIPlayer::_minMax(clsBoard<char> *currentBoard, bool isMax,
     return 10 + (100 - depth);
   }
   if (currentBoard->isWin(&humanPlayer)) {
-    return -10 - (100 - depth);
+    return -10 - (100 + depth);
   }
   if (currentBoard->isDraw(&AIPlayer)) {
     return 0;

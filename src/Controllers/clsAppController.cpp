@@ -11,6 +11,8 @@
 #include "clsSUSUI.h"
 #include "clsXOBoard.h"
 #include "clsXOUI.h"
+#include "clsFourByFourXOBoard.h"
+#include "clsFourByFourXOUI.h"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -142,6 +144,28 @@ void clsAppController::playMisereGame() {
   MemoryGame.run();
 
   delete MisereGameBoard;
+
+  for (int i = 0; i < 2; ++i) {
+    delete players[i];
+  }
+
+  delete gameUI;
+
+  delete[] players;
+}
+
+void clsAppController::playFourByFourGame(){
+  clsUI<char> *gameUI = new clsFourByFourUI();
+
+  clsBoard<char> *fourByFourGameBoard = new clsFourByFourBoard();
+
+  clsPlayer<char> **players = gameUI->setupPlayers();
+
+  clsGameManager<char> MemoryGame(fourByFourGameBoard, players, gameUI);
+
+  MemoryGame.run();
+
+  delete fourByFourGameBoard;
 
   for (int i = 0; i < 2; ++i) {
     delete players[i];

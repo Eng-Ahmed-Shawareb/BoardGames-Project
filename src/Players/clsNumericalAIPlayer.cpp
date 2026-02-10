@@ -68,7 +68,7 @@ int clsNumericalAIPlayer::_minMax(clsNumericalBoard *currentBoard, int depth,
     if (isMax) {
       return -10 - (100 - depth);
     } else {
-      return 10 + (100 - depth);
+      return 10 + (100 + depth);
     }
   }
 
