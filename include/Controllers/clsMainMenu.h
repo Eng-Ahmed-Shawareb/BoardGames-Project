@@ -11,7 +11,8 @@ private:
     FOURINROWGAME = 4,
     MEMORYGAME = 5,
     MISEREGAME = 6,
-    FOURBYFOURGAME = 7
+    FOURBYFOURGAME = 7,
+    INFINITYGAME = 8
   };
 
 public:

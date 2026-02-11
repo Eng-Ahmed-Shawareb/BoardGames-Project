@@ -13,6 +13,8 @@
 #include "clsXOUI.h"
 #include "clsFourByFourXOBoard.h"
 #include "clsFourByFourXOUI.h"
+#include "clsInfinityBoard.h"
+#include "clsInfinityUI.h"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -46,15 +48,15 @@ void clsAppController::playNumericalGame() {
 
   clsUI<int> *gameUI = new clsNumericalUI();
 
-  clsBoard<int> *NumericalBoard = new clsNumericalBoard();
+  clsBoard<int> *numericalBoard = new clsNumericalBoard();
 
   clsPlayer<int> **players = gameUI->setupPlayers();
 
-  clsGameManager<int> NumericalGame(NumericalBoard, players, gameUI);
+  clsGameManager<int> numericalGame(numericalBoard, players, gameUI);
 
-  NumericalGame.run();
+  numericalGame.run();
 
-  delete NumericalBoard;
+  delete numericalBoard;
 
   for (int i = 0; i < 2; ++i) {
     delete players[i];
@@ -91,15 +93,15 @@ void clsAppController::playSUSGame() {
 void clsAppController::playFourInRowGame() {
   clsUI<char> *gameUI = new clsFourInRowUI();
 
-  clsBoard<char> *FourInRowBoard = new clsFourInRowBoard();
+  clsBoard<char> *fourInRowBoard = new clsFourInRowBoard();
 
   clsPlayer<char> **players = gameUI->setupPlayers();
 
-  clsGameManager<char> FourInRowGame(FourInRowBoard, players, gameUI);
+  clsGameManager<char> fourInRowGame(fourInRowBoard, players, gameUI);
 
-  FourInRowGame.run();
+  fourInRowGame.run();
 
-  delete FourInRowBoard;
+  delete fourInRowBoard;
 
   for (int i = 0; i < 2; ++i) {
     delete players[i];
@@ -113,15 +115,15 @@ void clsAppController::playFourInRowGame() {
 void clsAppController::playMemoryGame() {
   clsUI<char> *gameUI = new clsMemoryGameUI();
 
-  clsBoard<char> *MemoryGameBoard = new clsXOBoard();
+  clsBoard<char> *memoryGameBoard = new clsXOBoard();
 
   clsPlayer<char> **players = gameUI->setupPlayers();
 
-  clsGameManager<char> MemoryGame(MemoryGameBoard, players, gameUI);
+  clsGameManager<char> memoryGame(memoryGameBoard, players, gameUI);
 
-  MemoryGame.run();
+  memoryGame.run();
 
-  delete MemoryGameBoard;
+  delete memoryGameBoard;
 
   for (int i = 0; i < 2; ++i) {
     delete players[i];
@@ -135,15 +137,15 @@ void clsAppController::playMemoryGame() {
 void clsAppController::playMisereGame() {
   clsUI<char> *gameUI = new clsMisereUI();
 
-  clsBoard<char> *MisereGameBoard = new clsMisereBoard();
+  clsBoard<char> *misereGameBoard = new clsMisereBoard();
 
   clsPlayer<char> **players = gameUI->setupPlayers();
 
-  clsGameManager<char> MemoryGame(MisereGameBoard, players, gameUI);
+  clsGameManager<char> misereGame(misereGameBoard, players, gameUI);
 
-  MemoryGame.run();
+  misereGame.run();
 
-  delete MisereGameBoard;
+  delete misereGameBoard;
 
   for (int i = 0; i < 2; ++i) {
     delete players[i];
@@ -157,15 +159,37 @@ void clsAppController::playMisereGame() {
 void clsAppController::playFourByFourGame(){
   clsUI<char> *gameUI = new clsFourByFourUI();
 
-  clsBoard<char> *fourByFourGameBoard = new clsFourByFourBoard();
+  clsBoard<char> *fourByFourBoard = new clsFourByFourBoard();
 
   clsPlayer<char> **players = gameUI->setupPlayers();
 
-  clsGameManager<char> MemoryGame(fourByFourGameBoard, players, gameUI);
+  clsGameManager<char> fourByFourGame(fourByFourBoard, players, gameUI);
 
-  MemoryGame.run();
+  fourByFourGame.run();
 
-  delete fourByFourGameBoard;
+  delete fourByFourBoard;
+
+  for (int i = 0; i < 2; ++i) {
+    delete players[i];
+  }
+
+  delete gameUI;
+
+  delete[] players;
+}
+
+void clsAppController::playInfinityGame(){
+  clsUI<char> *gameUI = new clsInfinityUI();
+
+  clsBoard<char> *infinityBoard = new clsInfinityBoard();
+
+  clsPlayer<char> **players = gameUI->setupPlayers();
+
+  clsGameManager<char> infinityGame(infinityBoard, players, gameUI);
+
+  infinityGame.run();
+
+  delete infinityBoard;
 
   for (int i = 0; i < 2; ++i) {
     delete players[i];

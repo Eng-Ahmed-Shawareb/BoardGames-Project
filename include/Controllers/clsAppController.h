@@ -13,6 +13,7 @@ public:
   static void playMemoryGame();
   static void playMisereGame();
   static void playFourByFourGame();
+  static void playInfinityGame();
 };
 
 #endif
