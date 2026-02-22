@@ -15,6 +15,8 @@
 #include "clsFourByFourXOUI.h"
 #include "clsInfinityBoard.h"
 #include "clsInfinityUI.h"
+#include "clsPyramidBoard.h"
+#include "clsPyramidUI.h"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -190,6 +192,28 @@ void clsAppController::playInfinityGame(){
   infinityGame.run();
 
   delete infinityBoard;
+
+  for (int i = 0; i < 2; ++i) {
+    delete players[i];
+  }
+
+  delete gameUI;
+
+  delete[] players;
+}
+
+void clsAppController::playPyramidGame(){
+  clsUI<char> *gameUI = new clsPyramidUI();
+
+  clsBoard<char> *pyramidBoard = new clsPyramidBoard();
+
+  clsPlayer<char> **players = gameUI->setupPlayers();
+
+  clsGameManager<char> pyramidGame(pyramidBoard, players, gameUI);
+
+  pyramidGame.run();
+
+  delete pyramidBoard;
 
   for (int i = 0; i < 2; ++i) {
     delete players[i];

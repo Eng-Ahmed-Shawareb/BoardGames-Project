@@ -14,6 +14,7 @@ public:
   static void playMisereGame();
   static void playFourByFourGame();
   static void playInfinityGame();
+  static void playPyramidGame();
 };
 
 #endif
