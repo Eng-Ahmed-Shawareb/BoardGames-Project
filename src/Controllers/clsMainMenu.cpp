@@ -42,7 +42,15 @@ void clsMainMenu::implementUserChoice(_enUserChoice choice) {
   case _enUserChoice::PYRAMIDGAME:
     system("clear");
     clsAppController::playPyramidGame();
-    break;  
+    break;
+  case _enUserChoice::FIVEBYFIVEGAME:
+    system("clear");
+    clsAppController::playFiveByFiveGame();
+    break;
+  case _enUserChoice::WORDGAME:
+    system("clear");
+    clsAppController::playWordGame();
+    break;
   }
 }
 
@@ -59,6 +67,8 @@ void clsMainMenu::printMainMenuScreen() {
   cout << "\t\t\t\t\t  " << "[7] XO Four by Four Game." << endl;
   cout << "\t\t\t\t\t  " << "[8] Infinity XO Game." << endl;
   cout << "\t\t\t\t\t  " << "[9] Pyramid Tic-Tac-Toe Game." << endl;
+  cout << "\t\t\t\t\t  " << "[10] 5x5 Tic-Tac-Toe Game." << endl;
+  cout << "\t\t\t\t\t  " << "[11] Word Tic-Tac-Toe Game." << endl;
   cout << "\t\t\t\t" << "=============================================" << endl;
 }
 
@@ -69,9 +79,9 @@ void clsMainMenu::startBoardGameProgram() {
     system("clear");
     int choice;
     printMainMenuScreen();
-    cout << "\t\t\t\t" << "     Please enter your choice ? [1 : 9] ? " << endl;
-    while (!clsInputValidate::validIntegerInRange(choice, 1, 9)) {
-      cout << "Invalid choice. please enter another one ? [1 : 9] ? " << endl;
+    cout << "\t\t\t\t" << "     Please enter your choice ? [1 : 11] ? " << endl;
+    while (!clsInputValidate::validIntegerInRange(choice, 1, 11)) {
+      cout << "Invalid choice. please enter another one ? [1 : 11] ? " << endl;
     }
     implementUserChoice((_enUserChoice)choice);
     cout << "Good Game!" << endl;

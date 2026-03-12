@@ -17,6 +17,10 @@
 #include "clsInfinityUI.h"
 #include "clsPyramidBoard.h"
 #include "clsPyramidUI.h"
+#include "clsFiveByFiveBoard.h"
+#include "clsFiveByFiveUI.h"
+#include "clsWordGameBoard.h"
+#include "clsWordGameUI.h"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -214,6 +218,50 @@ void clsAppController::playPyramidGame(){
   pyramidGame.run();
 
   delete pyramidBoard;
+
+  for (int i = 0; i < 2; ++i) {
+    delete players[i];
+  }
+
+  delete gameUI;
+
+  delete[] players;
+}
+
+void clsAppController::playFiveByFiveGame(){
+  clsUI<char> *gameUI = new clsFiveByFiveUI();
+
+  clsBoard<char> *fiveByFiveBoard = new clsFiveByFiveBoard();
+
+  clsPlayer<char> **players = gameUI->setupPlayers();
+
+  clsGameManager<char> fiveByFiveGame(fiveByFiveBoard, players, gameUI);
+
+  fiveByFiveGame.run();
+
+  delete fiveByFiveBoard;
+
+  for (int i = 0; i < 2; ++i) {
+    delete players[i];
+  }
+
+  delete gameUI;
+
+  delete[] players;
+}
+
+void clsAppController::playWordGame(){
+  clsUI<char> *gameUI = new clsWordGameUI();
+
+  clsBoard<char> *wordGameBoard = new clsWordGameBoard();
+
+  clsPlayer<char> **players = gameUI->setupPlayers();
+
+  clsGameManager<char> wordGame(wordGameBoard, players, gameUI);
+
+  wordGame.run();
+
+  delete wordGameBoard;
 
   for (int i = 0; i < 2; ++i) {
     delete players[i];

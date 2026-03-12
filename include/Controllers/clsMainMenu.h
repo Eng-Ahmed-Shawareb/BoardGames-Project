@@ -13,7 +13,9 @@ private:
     MISEREGAME = 6,
     FOURBYFOURGAME = 7,
     INFINITYGAME = 8,
-    PYRAMIDGAME = 9
+    PYRAMIDGAME = 9,
+    FIVEBYFIVEGAME = 10,
+    WORDGAME = 11
   };
 
 public:
