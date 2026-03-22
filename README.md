@@ -7,7 +7,7 @@
 
 **Shawareb’s BoardGames Hub** is a highly scalable, cross-platform terminal game engine written in C++. Expanding far beyond a standard console application, this framework supports **11 distinct games**, features a dynamic custom Text User Interface (TUI), and integrates a universal Artificial Intelligence engine capable of playing optimally against human opponents.
 
-> **🎥 [Watch the Full Video Demonstration Here](#)** *(Link your YouTube/LinkedIn video here once recorded!)*
+> **🎥 [Watch the Full Video Demonstration Here](#)** *(https://youtu.be/6iBGyr11xTA)*
 
 ---
 
@@ -100,4 +100,4 @@ The core strength of this framework is its strict adherence to Object-Oriented D
 
 ## 📬 Contact
 * **Email:** eng.ahmedshawareb@gmail.com
-* **LinkedIn:** [Ahmed Shawareb](#) *(Add your link here)*
+* **LinkedIn:** [Ahmed Shawareb](#) *(https://www.linkedin.com/in/ahmed-shawareb-82183133b/)*
