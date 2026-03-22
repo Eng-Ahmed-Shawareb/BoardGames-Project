@@ -32,10 +32,15 @@ Every game includes a dedicated AI opponent powered by the **Minimax algorithm**
 * **Depth Limiting:** Applied to complex variants to ensure the game remains responsive in real-time.
 
 ### 🖥️ Custom Text User Interface (TUI)
-Standard C++ `std::cout` forces a scrolling terminal. To solve this, a custom cross-platform TUI was engineered (`clsTUIUtils`). By bypassing standard streams and utilizing ANSI Escape Sequences (Linux) and `<windows.h>` APIs (Windows), the engine achieves:
-* Dynamic, stationary grid rendering (no scrolling!)
-* Colored text formatting
-* Real-time arrow-key navigation without input-buffer ghosting
+Standard C++ output creates a basic, scrolling text feed, which isn't ideal for a playable
+game. To make the framework look and feel like a real application, a custom Text User
+Interface was implemented.
+Since controlling terminal graphics in C++ is less about algorithmic problem-solving and
+more about executing highly specific Operating System commands and syntax, I utilized AI
+tools to assist in generating the TUI components. Using AI to handle this structural
+boilerplate allowed me to focus my engineering efforts on the complex OOP architecture and
+the AI logic. The resulting interface successfully provides smooth visuals, dynamic cursor
+movement, and real-time keyboard inputs across different operating systems.
 
 ---
 
