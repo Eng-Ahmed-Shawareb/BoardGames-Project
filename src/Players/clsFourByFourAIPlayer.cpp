@@ -46,7 +46,7 @@ clsMove<char> *clsFourByFourAIPlayer::getBestMove() const {
 
 int clsFourByFourAIPlayer::_minMax(clsBoard<char> *currentBoard, bool isMax,
                                    int depth, int alpha, int beta) const {
-  // base case
+
   char humanSymbol = (getSymbol() == 'X') ? 'O' : 'X';
   clsPlayer<char> AIPlayer("AI", getSymbol(), enPlayerType::COMPUTER);
   AIPlayer.setBoardPtr(currentBoard);
@@ -63,7 +63,6 @@ int clsFourByFourAIPlayer::_minMax(clsBoard<char> *currentBoard, bool isMax,
   if (depth > 9)
     return 0;
 
-  // transition
   if (isMax) {
     int maxScore = (int)-1e5;
 

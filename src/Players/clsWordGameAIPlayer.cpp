@@ -6,7 +6,6 @@ using namespace std;
 clsWordGameAIPlayer::clsWordGameAIPlayer(string name, char symbol)
     : clsPlayer<char>(name, symbol, enPlayerType::COMPUTER) {}
 
-
 clsMove<char> *clsWordGameAIPlayer::getBestMove() const {
   clsWordGameBoard *testBoard = new clsWordGameBoard();
   *testBoard = *(dynamic_cast<clsWordGameBoard *>(getBoardPtr()));
@@ -42,20 +41,20 @@ clsMove<char> *clsWordGameAIPlayer::getBestMove() const {
 
 int clsWordGameAIPlayer::_minMax(clsBoard<char> *currentBoard, bool isMax,
                                  int depth, int alpha, int beta) const {
-                                     
+
   clsPlayer<char> dummyPlayer("Dummy", 'A', enPlayerType::COMPUTER);
   dummyPlayer.setBoardPtr(currentBoard);
 
   if (currentBoard->isWin(&dummyPlayer)) {
     if (isMax) {
-      return -10 - (100 - depth); 
+      return -10 - (100 - depth);
     } else {
       return 10 + (100 - depth);
     }
   }
 
   if (depth > 1 || currentBoard->isDraw(&dummyPlayer)) {
-    return 0; 
+    return 0;
   }
 
   if (isMax) {
@@ -63,7 +62,7 @@ int clsWordGameAIPlayer::_minMax(clsBoard<char> *currentBoard, bool isMax,
     for (int i = 0; i < currentBoard->getRows(); ++i) {
       for (int j = 0; j < currentBoard->getColumns(); ++j) {
         if (currentBoard->getCell(i, j) == '.') {
-            
+
           for (char letter = 'A'; letter <= 'Z'; ++letter) {
             clsMove<char> currentMove(i, j, letter);
             currentBoard->updateBoard(&currentMove);
@@ -88,7 +87,7 @@ int clsWordGameAIPlayer::_minMax(clsBoard<char> *currentBoard, bool isMax,
     for (int i = 0; i < currentBoard->getRows(); ++i) {
       for (int j = 0; j < currentBoard->getColumns(); ++j) {
         if (currentBoard->getCell(i, j) == '.') {
-            
+
           for (char letter = 'A'; letter <= 'Z'; ++letter) {
             clsMove<char> currentMove(i, j, letter);
             currentBoard->updateBoard(&currentMove);

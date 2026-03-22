@@ -3,6 +3,7 @@
 #include "clsInputValidate.h"
 #include "clsPyramidAIPlayer.h"
 #include "clsPyramidBoard.h"
+#include "clsTUIUtils.h"
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -13,84 +14,98 @@ clsPyramidUI::clsPyramidUI() : clsUI<char>("Welcome to my Pyramid Tic-Tac-Toe ga
 
 clsPlayer<char> *clsPyramidUI::createPlayer(string &name, char symbol,
                                             enPlayerType type) {
-  cout << "Creating " << (type == enPlayerType::HUMAN ? "human" : "computer")
-       << endl;
+  cout << "Creating " << (type == enPlayerType::HUMAN ? "Human" : "AI")
+       << " player : " << name << " (" << symbol << ")" << endl;
   if (type == enPlayerType::COMPUTER) {
     return new clsPyramidAIPlayer(name, symbol);
   }
-  return new clsPlayer<char>(name, symbol, type);
+  return new clsPlayer(name, symbol, type);
 }
 
 clsMove<char> *clsPyramidUI::getMove(clsPlayer<char> *player) {
-  int x, y;
+  int x;
+  int y;
+  char symbol = player->getSymbol();
 
   if (player->getType() == enPlayerType::HUMAN) {
-    cout << "Please enter your move (x: 0-2, y: based on row):" << endl;
-    cout << "Row 0: y can be 2" << endl;
-    cout << "Row 1: y can be 1-3" << endl;
-    cout << "Row 2: y can be 0-4" << endl;
-    
-    while (true) {
-      cout << "Enter x (row): ";
-      if (!clsInputValidate::validIntegerInRange(x, 0, 2))
-        continue;
-      
-      cout << "Enter y (column): ";
-      if (!clsInputValidate::validIntegerInRange(y, 0, 4))
-        continue;
-      
+    clsTUIUtils::color(enTUIColor::BLUE);
+    cout << player->getName() << " " << "turn" << endl;
+    clsTUIUtils::resetColor();
+    cout << "Please enter your move x and y (0 to 2): ";
+    while (((!clsInputValidate::validIntegerInRange(x, 0, 2)) ||
+           (!clsInputValidate::validIntegerInRange(y, 0, 4))) || !((x == 0 && y == 2) || (x == 1 && y >= 1 && y <= 3) || (x == 2 && y >= 0 && y <= 4))) {
+      cout << endl
+           << "Invalid input , Please enter your move x and y (0 to 2): ";
+    }
 
-      bool validPos = false;
+  }
+
+  bool validPos = false;
       if (x == 0 && y == 2) validPos = true;
       else if (x == 1 && y >= 1 && y <= 3) validPos = true;
       else if (x == 2 && y >= 0 && y <= 4) validPos = true;
-      
-      if (validPos) break;
-      
-      cout << "Invalid position for this row! Try again." << endl;
-    }
-  } else {
 
-    clsPyramidAIPlayer* AIPlayer = dynamic_cast<clsPyramidAIPlayer*>(player);
+  else if (player->getType() == enPlayerType::COMPUTER) {
+
+    clsPyramidAIPlayer *AIPlayer = dynamic_cast<clsPyramidAIPlayer *>(player);
     if (AIPlayer) {
       return AIPlayer->getBestMove();
     }
   }
-  
-  return new clsMove<char>(x, y, player->getSymbol());
+
+  return new clsMove<char>(x, y, symbol);
 }
 
 clsPlayer<char> **clsPyramidUI::setupPlayers() {
-  clsPlayer<char> **players = new clsPlayer<char> *[2];
-  vector<string> playerTypes = {"Human", "Computer"};
-  
-  for (int i = 0; i < 2; ++i) {
-    string playerName;
-    char symbol = (i == 0) ? 'X' : 'O';
-    
-    cout << "\nPlayer " << (i + 1) << " Configuration:" << endl;
-    
-    int typeChoice;
-    cout << "Select player type (1: Human, 2: Computer): ";
-    while (!clsInputValidate::validIntegerInRange(typeChoice, 1, 2)) {
-      cout << "Invalid choice. Please enter 1 or 2: ";
-    }
-    
-    cout << "Enter player name: ";
-    cin.ignore();
-    getline(cin, playerName);
-    
-    enPlayerType type = (typeChoice == 1) ? enPlayerType::HUMAN : enPlayerType::COMPUTER;
-    players[i] = createPlayer(playerName, symbol, type);
-  }
-  
+  clsPlayer<char>** players = new clsPlayer<char>* [2];
+  vector<string> vTypeOptions = {"Human" , "AI"};
+
+  string nameX = getPlayerName("Player X");
+  enPlayerType typeX = getPlayerTypeChoice("Player X" , vTypeOptions);
+  players[0] = createPlayer(nameX , 'X' , typeX);
+
+  string nameO = getPlayerName("Player O");
+  enPlayerType typeO = getPlayerTypeChoice("Player O" , vTypeOptions);
+  players[1] = createPlayer(nameO , 'O' , typeO);
+
   return players;
 }
 
 void clsPyramidUI::displayBoardMatrix(const vector<vector<char>> &matrix) const {
+  auto printCell = [](char c) {
+    if (c == 'X') { clsTUIUtils::color(enTUIColor::BRIGHT_RED); cout << " " << c << " "; }
+    else if (c == 'O') { clsTUIUtils::color(enTUIColor::BRIGHT_GREEN); cout << " " << c << " "; }
+    else if (c != ' ') { clsTUIUtils::color(enTUIColor::WHITE); cout << " " << c << " "; }
+    else { cout << "   "; }
+    clsTUIUtils::color(enTUIColor::BLUE);
+  };
+
   cout << "\n";
-  cout << "        " << matrix[0][2] << "\n";
-  cout << "      " << matrix[1][1] << " " << matrix[1][2] << " " << matrix[1][3] << "\n";
-  cout << "    " << matrix[2][0] << " " << matrix[2][1] << " " << matrix[2][2] << " " << matrix[2][3] << " " << matrix[2][4] << "\n";
-  cout << "\n";
+  clsTUIUtils::color(enTUIColor::BLUE);
+
+  cout << "            \u250C\u2500\u2500\u2500\u2510\n";
+
+  cout << "            \u2502";
+  printCell(matrix[0][2]);
+  cout << "\u2502\n";
+
+  cout << "        \u250C\u2500\u2500\u2500\u253C\u2500\u2500\u2500\u253C\u2500\u2500\u2500\u2510\n";
+
+  cout << "        \u2502";
+  printCell(matrix[1][1]); cout << "\u2502";
+  printCell(matrix[1][2]); cout << "\u2502";
+  printCell(matrix[1][3]); cout << "\u2502\n";
+
+  cout << "    \u250C\u2500\u2500\u2500\u253C\u2500\u2500\u2500\u253C\u2500\u2500\u2500\u253C\u2500\u2500\u2500\u253C\u2500\u2500\u2500\u2510\n";
+
+  cout << "    \u2502";
+  printCell(matrix[2][0]); cout << "\u2502";
+  printCell(matrix[2][1]); cout << "\u2502";
+  printCell(matrix[2][2]); cout << "\u2502";
+  printCell(matrix[2][3]); cout << "\u2502";
+  printCell(matrix[2][4]); cout << "\u2502\n";
+
+  cout << "    \u2514\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2518\n\n";
+
+  clsTUIUtils::resetColor();
 }

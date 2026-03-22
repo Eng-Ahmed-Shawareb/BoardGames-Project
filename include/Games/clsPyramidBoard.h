@@ -7,7 +7,7 @@ class clsPyramidBoard : public clsBoard<char> {
 private:
   char _blankSymbol = '.';
   char _invalidSymbol = ' ';
-  
+
   bool isValidPosition(int x, int y) const;
 
 public:

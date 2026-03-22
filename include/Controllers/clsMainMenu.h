@@ -1,27 +1,35 @@
+
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
 
 class clsMainMenu {
 
 private:
+
   enum class _enUserChoice {
-    XOGAME = 1,
-    NUMERICALGAME = 2,
-    SUSGAME = 3,
-    FOURINROWGAME = 4,
-    MEMORYGAME = 5,
-    MISEREGAME = 6,
-    FOURBYFOURGAME = 7,
-    INFINITYGAME = 8,
-    PYRAMIDGAME = 9,
-    FIVEBYFIVEGAME = 10,
-    WORDGAME = 11
+    XO_GAME = 1,
+    NUMERICAL_GAME = 2,
+    SUS_GAME = 3,
+    FOURINROW_GAME = 4,
+    MEMORY_GAME = 5,
+    MISERE_GAME = 6,
+    FOUR_BY_FOUR_GAME = 7,
+    INFINITY_GAME = 8,
+    PYRAMID_GAME = 9,
+    FIVE_BY_FIVE_GAME = 10,
+    WORD_GAME = 11,
+    EXIT = 12
   };
 
-public:
   static void implementUserChoice(_enUserChoice choice);
 
-  static void printMainMenuScreen();
+  static _enUserChoice readChoiceArrow();
+
+  static void showLoadingAnimation();
+
+  static void drawGameIcons(int startX, int startY);
+
+public:
 
   static void startBoardGameProgram();
 };

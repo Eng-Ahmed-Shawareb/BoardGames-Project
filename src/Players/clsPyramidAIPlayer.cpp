@@ -80,7 +80,6 @@ int clsPyramidAIPlayer::_minMax(clsBoard<char> *currentBoard, int depth,
         int score = _minMax(currentBoard, depth + 1, false, alpha, beta);
         maxScore = max(maxScore, score);
 
-        // Alpha-beta pruning
         alpha = max(alpha, score);
         if (beta <= alpha) {
           clsMove<char> undoMove(x, y, 0);

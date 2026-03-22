@@ -3,6 +3,7 @@
 #include "clsInputValidate.h"
 #include "clsXOAIPlayer.h"
 #include "clsXOBoard.h"
+#include "clsTUIUtils.h"
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -12,8 +13,8 @@ clsMemoryGameUI::clsMemoryGameUI()
 
 clsPlayer<char> *clsMemoryGameUI::createPlayer(string &name, char symbol,
                                                enPlayerType type) {
-  // Create player based on type
-  cout << "Creating " << (type == enPlayerType::HUMAN ? "human" : "computer")
+
+  cout << "Creating " << (type == enPlayerType::HUMAN ? "human" : "AI")
        << endl;
 
   if (type == enPlayerType::COMPUTER) {
@@ -26,6 +27,9 @@ clsMove<char> *clsMemoryGameUI::getMove(clsPlayer<char> *player) {
   int x, y;
 
   if (player->getType() == enPlayerType::HUMAN) {
+    clsTUIUtils::color(enTUIColor::BLUE);
+    cout << player->getName() << " " << "turn" << endl;
+    clsTUIUtils::resetColor();
     cout << "Please enter your move x and y (0 to 2): ";
     while ((!clsInputValidate::validIntegerInRange(x, 0, 2)) ||
            (!clsInputValidate::validIntegerInRange(y, 0, 2))) {
@@ -41,27 +45,58 @@ clsMove<char> *clsMemoryGameUI::getMove(clsPlayer<char> *player) {
   return new clsMove<char>(x, y, player->getSymbol());
 }
 
-void clsMemoryGameUI::displayBoardMatrix(
-    const vector<vector<char>> &matrix) const {
-  if (matrix.empty() || matrix[0].empty())
-    return;
+void clsMemoryGameUI::displayBoardMatrix(const vector<vector<char>> &matrix) const {
+  if (matrix.empty() || matrix[0].empty()) return;
 
   int rows = matrix.size();
   int cols = matrix[0].size();
 
   cout << "\n    ";
-  for (int j = 0; j < cols; ++j)
-    cout << setw(cellWidth + 1) << j;
-  cout << "\n   " << string((cellWidth + 2) * cols, '-') << "\n";
+  clsTUIUtils::color(enTUIColor::CYAN);
+  for (int j = 0; j < cols; ++j) cout << setw(cellWidth + 1) << j << " ";
+  cout << "\n";
+
+  clsTUIUtils::color(enTUIColor::BLUE);
+  cout << "   \u250C";
+  for (int j = 0; j < cols; ++j) {
+    for (int k = 0; k < cellWidth + 1; ++k) cout << "\u2500";
+    if (j < cols - 1) cout << "\u252C";
+  }
+  cout << "\u2510\n";
 
   for (int i = 0; i < rows; ++i) {
-    cout << setw(2) << i << " |";
-    for (int j = 0; j < cols; ++j)
-      cout << setw(cellWidth)
-           << ((matrix[i][j] == 'X' || matrix[i][j] == 'O') ? '?'
-                                                            : matrix[i][j])
-           << " |";
-    cout << "\n   " << string((cellWidth + 2) * cols, '-') << "\n";
+    clsTUIUtils::color(enTUIColor::CYAN);
+    cout << setw(2) << i << " ";
+    clsTUIUtils::color(enTUIColor::BLUE);
+    cout << "\u2502";
+    for (int j = 0; j < cols; ++j) {
+      cout << " ";
+      char displayChar = (matrix[i][j] == 'X' || matrix[i][j] == 'O') ? '?' : matrix[i][j];
+
+      if (displayChar == '?') clsTUIUtils::color(enTUIColor::YELLOW);
+      else clsTUIUtils::color(enTUIColor::WHITE);
+
+      cout << displayChar;
+      clsTUIUtils::color(enTUIColor::BLUE);
+      cout << setw(cellWidth - 1) << " " << "\u2502";
+    }
+    cout << "\n";
+
+    if (i < rows - 1) {
+      cout << "   \u251C";
+      for (int j = 0; j < cols; ++j) {
+        for (int k = 0; k < cellWidth + 1; ++k) cout << "\u2500";
+        if (j < cols - 1) cout << "\u253C";
+      }
+      cout << "\u2524\n";
+    }
   }
+  cout << "   \u2514";
+  for (int j = 0; j < cols; ++j) {
+    for (int k = 0; k < cellWidth + 1; ++k) cout << "\u2500";
+    if (j < cols - 1) cout << "\u2534";
+  }
+  cout << "\u2518\n";
+  clsTUIUtils::resetColor();
   cout << endl;
 }

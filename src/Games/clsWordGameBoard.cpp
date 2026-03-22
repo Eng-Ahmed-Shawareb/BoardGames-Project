@@ -59,7 +59,7 @@ bool clsWordGameBoard::updateBoard(clsMove<char> *move) {
 }
 
 bool clsWordGameBoard::isWin(clsPlayer<char> *player) {
-  // Check rows
+
   for (int i = 0; i < rows; ++i) {
     string word = "";
     word += vBoard[i][0];
@@ -69,7 +69,6 @@ bool clsWordGameBoard::isWin(clsPlayer<char> *player) {
       return true;
   }
 
-  // Check columns
   for (int i = 0; i < columns; ++i) {
     string word = "";
     word += vBoard[0][i];
@@ -79,7 +78,6 @@ bool clsWordGameBoard::isWin(clsPlayer<char> *player) {
       return true;
   }
 
-  // Check diagonals
   string word1 = "";
   word1 += vBoard[0][0];
   word1 += vBoard[1][1];
@@ -102,7 +100,7 @@ bool clsWordGameBoard::isDraw(clsPlayer<char> *player) {
 }
 
 bool clsWordGameBoard::isLose(clsPlayer<char> *player) {
-  // Can't lose on your own turn in Word Tic-Tac-Toe, winning only depends on forming a word
+
   return false;
 }
 

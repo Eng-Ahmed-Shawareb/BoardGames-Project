@@ -21,6 +21,8 @@ public:
   clsMove<int> *getMove(clsPlayer<int> *player) override;
 
   clsPlayer<int> **setupPlayers() override;
+
+  void displayBoardMatrix(const vector<vector<int>> &matrix) const override;
 };
 
 #endif

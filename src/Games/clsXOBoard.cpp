@@ -13,7 +13,6 @@ bool clsXOBoard::updateBoard(clsMove<char> *move) {
   int y = move->getY();
   char mark = move->getSymbol();
 
-  // Validate move and apply if valid
   if (!(x < 0 || x >= rows || y < 0 || y >= columns) &&
       (vBoard[x][y] == _blankSymbol || mark == 0)) {
 

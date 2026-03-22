@@ -38,7 +38,7 @@ clsMove<char> *clsMisereAIPlayer::getBestMove() const {
 
 int clsMisereAIPlayer::_minMax(clsBoard<char> *currentBoard, int depth,
                            bool isMax) const {
-  // base case
+
   char humanSymbol = (getSymbol() == 'X') ? 'O' : 'X';
   clsPlayer<char> humanPlayer("human", humanSymbol, enPlayerType::HUMAN);
   clsPlayer<char> AIPlayer("AI", getSymbol(), enPlayerType::COMPUTER);
@@ -53,7 +53,6 @@ int clsMisereAIPlayer::_minMax(clsBoard<char> *currentBoard, int depth,
     return 0;
   }
 
-  // transition
   if (isMax) {
     int maxScore = -1e5;
 

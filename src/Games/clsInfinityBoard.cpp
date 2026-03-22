@@ -14,7 +14,6 @@ bool clsInfinityBoard::updateBoard(clsMove<char> *move) {
   int y = move->getY();
   char symbol = move->getSymbol();
 
-  // Validate move and apply if valid
   if (!(x < 0 || x >= rows || y < 0 || y >= columns) &&
       (vBoard[x][y] == _blankSymbol || symbol == 0)) {
     nMoves++;

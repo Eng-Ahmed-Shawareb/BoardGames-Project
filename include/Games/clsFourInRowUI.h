@@ -13,6 +13,8 @@ public:
                                 enPlayerType type) override;
 
   clsPlayer<char> **setupPlayers() override;
+
+  void displayBoardMatrix(const vector<vector<char>> &matrix) const override;
 };
 
 #endif

@@ -7,7 +7,7 @@
 class clsInfinityBoard : public clsBoard<char> {
 private:
   char _blankSymbol = '.';
-  
+
 public:
   clsInfinityBoard();
 

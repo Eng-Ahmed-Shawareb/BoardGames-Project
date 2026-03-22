@@ -36,7 +36,7 @@ clsMove<char> *clsInfinityAIPlayer::getBestMove() const {
 
 int clsInfinityAIPlayer::_minMax(clsBoard<char> *currentBoard, int depth,
                                  bool isMax, int alpha, int beta) const {
-  // base case
+
   char humanSymbol = (getSymbol() == 'X') ? 'O' : 'X';
   clsPlayer<char> humanPlayer("human", humanSymbol, enPlayerType::HUMAN);
   clsPlayer<char> AIPlayer("AI", getSymbol(), enPlayerType::COMPUTER);
@@ -51,7 +51,6 @@ int clsInfinityAIPlayer::_minMax(clsBoard<char> *currentBoard, int depth,
   if (depth > 10)
     return 0;
 
-  // transition
   if (isMax) {
     int maxScore = -1e5;
 

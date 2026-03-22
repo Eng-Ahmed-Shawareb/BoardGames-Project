@@ -59,7 +59,6 @@ clsMove<int> *clsNumericalAIPlayer::getBestMove() const {
 
 int clsNumericalAIPlayer::_minMax(clsNumericalBoard *currentBoard, int depth,
                                   int alpha, int beta, bool isMax) const {
-  // base case
 
   clsPlayer<int> tempPlayer("temp", 0, enPlayerType::HUMAN);
 
@@ -79,7 +78,6 @@ int clsNumericalAIPlayer::_minMax(clsNumericalBoard *currentBoard, int depth,
   if (depth > 8)
     return 0;
 
-  // transition
   int humanType = (getSymbol() % 2 == 0) ? 1 : 0;
 
   if (isMax) {

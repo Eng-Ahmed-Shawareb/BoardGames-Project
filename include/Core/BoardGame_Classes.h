@@ -8,10 +8,15 @@
 #define BOARDGAME_CLASSES_H
 
 #include "clsInputValidate.h"
+#include "clsTUIUtils.h"
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
+#include <thread>
+#include <chrono>
+
 
 using namespace std;
 
@@ -44,7 +49,7 @@ enum class enPlayerType {
  * Provides core data (rows, columns, matrix) and virtual methods to be
  * implemented by specific games like Tic-Tac-Toe, Connect4, etc.
  */
-template <typename T> 
+template <typename T>
 
 class clsBoard {
 protected:
@@ -108,7 +113,7 @@ public:
  *
  * @tparam T Type of symbol placed on the board (e.g., char, int).
  */
-template <typename T> 
+template <typename T>
 
 class clsMove {
   int _x;    ///< Row index
@@ -135,7 +140,7 @@ public:
  *
  * @tparam T Type of symbol used by the player.
  */
-template <typename T> 
+template <typename T>
 
 class clsPlayer {
 protected:
@@ -180,13 +185,20 @@ template <typename T>
 class clsUI {
 protected:
   int cellWidth; ///< Width of each displayed board cell
+  string _headerTitle; ///< The title of the game to be displayed in the header
 
   /**
    * @brief Ask the user for the player's name.
    */
   virtual string getPlayerName(string playerLabel) {
     string name;
-    cout << "Enter " << playerLabel << " name: ";
+    clsTUIUtils::color(enTUIColor::CYAN);
+    cout << "Enter ";
+    clsTUIUtils::color(enTUIColor::BRIGHT_YELLOW);
+    cout << playerLabel;
+    clsTUIUtils::color(enTUIColor::CYAN);
+    cout << " name: ";
+    clsTUIUtils::resetColor();
     getline(cin >> ws, name);
     return name;
   }
@@ -196,13 +208,24 @@ protected:
    */
   virtual enPlayerType getPlayerTypeChoice(string playerLabel,
                                            const vector<string> &options) {
-    cout << "Choose " << playerLabel << " type:\n";
+    clsTUIUtils::color(enTUIColor::CYAN);
+    cout << "Choose ";
+    clsTUIUtils::color(enTUIColor::BRIGHT_YELLOW);
+    cout << playerLabel;
+    clsTUIUtils::color(enTUIColor::CYAN);
+    cout << " type:\n";
+    clsTUIUtils::color(enTUIColor::WHITE);
     for (size_t i = 0; i < options.size(); ++i)
-      cout << i + 1 << ". " << options[i] << "\n";
+      cout << " " << i + 1 << ". " << options[i] << "\n";
     int choice;
+    clsTUIUtils::color(enTUIColor::CYAN);
+    cout << "Your choice: ";
+    clsTUIUtils::resetColor();
     while (!clsInputValidate::validIntegerInRange(
         choice, 1, static_cast<int>(options.size()))) {
-      cout << "Invalid input , Please enter the type number : " << endl;
+      clsTUIUtils::color(enTUIColor::RED);
+      cout << "Invalid input , Please enter the type number : ";
+      clsTUIUtils::resetColor();
     }
     return (choice == 2) ? enPlayerType::COMPUTER : enPlayerType::HUMAN;
   }
@@ -211,19 +234,49 @@ public:
   /**
    * @brief Construct the UI and display a welcome message.
    */
-  clsUI(int cellDisplayWidth = 3) : cellWidth(cellDisplayWidth) {}
+  clsUI(int cellDisplayWidth = 3) : cellWidth(cellDisplayWidth), _headerTitle("") {}
 
   /**
    * @brief Construct the UI and display a welcome message.
    */
-  clsUI(string message, int cellDisplayWidth) : cellWidth(cellDisplayWidth) {
-    cout << message << endl;
+  clsUI(string message, int cellDisplayWidth) : cellWidth(cellDisplayWidth), _headerTitle(message) {
+    clsTUIUtils::clearScreen();
+    displayHeader();
   }
 
   virtual ~clsUI() {}
 
+  /**
+   * @brief Displays the colored, framed game header if one is set.
+   */
+  virtual void displayHeader() const {
+    if (_headerTitle.empty()) return;
+
+    int width = _headerTitle.length() + 8;
+    int leftMargin = 2; 
+
+    cout << "\n";
+    clsTUIUtils::color(enTUIColor::CYAN);
+    cout << string(leftMargin, ' ') << "\u256D"; for(int i=0; i<width; i++) cout << "\u2500"; cout << "\u256E\n";
+    
+    cout << string(leftMargin, ' ') << "\u2502";
+    clsTUIUtils::color(enTUIColor::BRIGHT_MAGENTA);
+    int leftPad = (width - _headerTitle.length()) / 2;
+    int rightPad = width - _headerTitle.length() - leftPad;
+    cout << string(leftPad, ' ') << _headerTitle << string(rightPad, ' ');
+    clsTUIUtils::color(enTUIColor::CYAN);
+    cout << "\u2502\n";
+
+    cout << string(leftMargin, ' ') << "\u2570"; for(int i=0; i<width; i++) cout << "\u2500"; cout << "\u256F\n\n";
+    clsTUIUtils::resetColor();
+  }
+
   /** @brief Display any message to the user. */
-  virtual void displayMessage(string message) { cout << message << "\n"; }
+  virtual void displayMessage(string message) {
+    clsTUIUtils::color(enTUIColor::BRIGHT_YELLOW);
+    cout << "\n[*] " << message << " [*]\n";
+    clsTUIUtils::resetColor();
+  }
 
   /**
    * @brief Ask the user (or AI) to make a move.
@@ -293,6 +346,8 @@ public:
    * @brief Run the main game loop until someone wins or the game ends.
    */
   void run() {
+    clsTUIUtils::clearScreen();
+    _UI->displayHeader();
     _UI->displayBoardMatrix(_boardPtr->getBoardMatrix());
     clsPlayer<T> *currentPlayer = _players[0];
 
@@ -301,21 +356,33 @@ public:
         currentPlayer = _players[i];
         clsMove<T> *move = _UI->getMove(currentPlayer);
 
-        while (!_boardPtr->updateBoard(move))
+        while (!_boardPtr->updateBoard(move)) {
+          clsTUIUtils::color(enTUIColor::RED);
+          cout << "Invalid move! Try again.\n";
+          clsTUIUtils::resetColor();
           move = _UI->getMove(currentPlayer);
+        }
 
+        clsTUIUtils::clearScreen();
+        _UI->displayHeader();
         _UI->displayBoardMatrix(_boardPtr->getBoardMatrix());
 
         if (_boardPtr->isWin(currentPlayer)) {
           _UI->displayMessage(currentPlayer->getName() + " wins!");
+          std::cout << "\nReturning to menu in a few seconds..." << std::flush;
+          std::this_thread::sleep_for(std::chrono::milliseconds(3000));
           return;
         }
         if (_boardPtr->isLose(currentPlayer)) {
           _UI->displayMessage(_players[1 - i]->getName() + " wins!");
+          std::cout << "\nReturning to menu in a few seconds..." << std::flush;
+          std::this_thread::sleep_for(std::chrono::milliseconds(3000));
           return;
         }
         if (_boardPtr->isDraw(currentPlayer)) {
           _UI->displayMessage("Draw!");
+          std::cout << "\nReturning to menu in a few seconds..." << std::flush;
+          std::this_thread::sleep_for(std::chrono::milliseconds(3000));
           return;
         }
       }
@@ -329,7 +396,7 @@ public:
  */
 template <typename T> clsPlayer<T> **clsUI<T>::setupPlayers() {
   clsPlayer<T> **players = new clsPlayer<T> *[2];
-  vector<string> typeOptions = {"Human", "Computer"};
+  vector<string> typeOptions = {"Human", "AI"};
 
   string nameX = getPlayerName("Player X");
   enPlayerType typeX = getPlayerTypeChoice("Player X", typeOptions);
@@ -349,7 +416,7 @@ template <typename T>
 clsPlayer<T> *clsUI<T>::createPlayer(string &name, T symbol,
                                      enPlayerType type) {
   // Create player based on type
-  cout << "Creating " << (type == enPlayerType::HUMAN ? "human" : "computer")
+  cout << "Creating " << (type == enPlayerType::HUMAN ? "Human" : "AI")
        << " player: " << name << " (" << symbol << ")\n";
 
   return new clsPlayer<T>(name, symbol, type);

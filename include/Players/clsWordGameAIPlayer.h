@@ -3,7 +3,7 @@
 
 #include "BoardGame_Classes.h"
 #include <algorithm>
-using namespace std; 
+using namespace std;
 
 class clsWordGameAIPlayer : public clsPlayer<char> {
 private:

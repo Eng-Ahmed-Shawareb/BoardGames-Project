@@ -1,6 +1,8 @@
 #include "clsNumericalUI.h"
 #include "clsInputValidate.h"
 #include "clsNumericalAIPlayer.h"
+#include "clsTUIUtils.h"
+#include <iomanip>
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -32,7 +34,7 @@ clsPlayer<int> *clsNumericalUI::createPlayer(string &name, int symbol,
                                              enPlayerType type) {
   string numType = (symbol == 1) ? "Odd" : "Even";
 
-  cout << "Creating " << (type == enPlayerType::HUMAN ? "Human" : "Computer")
+  cout << "Creating " << (type == enPlayerType::HUMAN ? "Human" : "AI")
        << " player : " << name << " (" << numType << ")" << endl;
   if (type == enPlayerType::COMPUTER) {
     return new clsNumericalAIPlayer(name, symbol);
@@ -46,7 +48,9 @@ clsMove<int> *clsNumericalUI::getMove(clsPlayer<int> *player) {
   int x, y, symbol;
   int numType = player->getSymbol();
   if (player->getType() == enPlayerType::HUMAN) {
-
+    clsTUIUtils::color(enTUIColor::BLUE);
+    cout << player->getName() << " " << "turn" << endl;
+    clsTUIUtils::resetColor();
     if (numType % 2) {
       cout << "Please enter number from : ";
       printAvailableNumbers(currentBoard, numType);
@@ -105,7 +109,7 @@ clsMove<int> *clsNumericalUI::getMove(clsPlayer<int> *player) {
 
 clsPlayer<int> **clsNumericalUI::setupPlayers() {
   clsPlayer<int> **players = new clsPlayer<int> *[2];
-  vector<string> vTypeOptions = {"Human", "Computer"};
+  vector<string> vTypeOptions = {"Human", "AI"};
 
   string nameOdd = getPlayerName("Odd player");
   enPlayerType typeOdd = getPlayerTypeChoice("Odd player", vTypeOptions);
@@ -116,4 +120,64 @@ clsPlayer<int> **clsNumericalUI::setupPlayers() {
   players[1] = createPlayer(nameEven, static_cast<int>(0), typeEven);
 
   return players;
+}
+
+void clsNumericalUI::displayBoardMatrix(const vector<vector<int>> &matrix) const {
+  if (matrix.empty() || matrix[0].empty()) return;
+
+  int rows = matrix.size();
+  int cols = matrix[0].size();
+
+  cout << "\n    ";
+  clsTUIUtils::color(enTUIColor::CYAN);
+  for (int j = 0; j < cols; ++j) cout << setw(cellWidth + 1) << j << " ";
+  cout << "\n";
+
+  clsTUIUtils::color(enTUIColor::BLUE);
+  cout << "   \u250C";
+  for (int j = 0; j < cols; ++j) {
+    for (int k = 0; k < cellWidth + 1; ++k) cout << "\u2500";
+    if (j < cols - 1) cout << "\u252C";
+  }
+  cout << "\u2510\n";
+
+  for (int i = 0; i < rows; ++i) {
+    clsTUIUtils::color(enTUIColor::CYAN);
+    cout << setw(2) << i << " ";
+    clsTUIUtils::color(enTUIColor::BLUE);
+    cout << "\u2502";
+    for (int j = 0; j < cols; ++j) {
+      cout << " ";
+
+      int val = matrix[i][j];
+      if (val == 0) {
+          cout << "0";
+      } else {
+          if (val % 2 != 0) clsTUIUtils::color(enTUIColor::BRIGHT_GREEN);
+          else clsTUIUtils::color(enTUIColor::BRIGHT_RED);
+          cout << val;
+      }
+
+      clsTUIUtils::color(enTUIColor::BLUE);
+      cout << setw(cellWidth - 1) << " " << "\u2502";
+    }
+    cout << "\n";
+
+    if (i < rows - 1) {
+      cout << "   \u251C";
+      for (int j = 0; j < cols; ++j) {
+        for (int k = 0; k < cellWidth + 1; ++k) cout << "\u2500";
+        if (j < cols - 1) cout << "\u253C";
+      }
+      cout << "\u2524\n";
+    }
+  }
+  cout << "   \u2514";
+  for (int j = 0; j < cols; ++j) {
+    for (int k = 0; k < cellWidth + 1; ++k) cout << "\u2500";
+    if (j < cols - 1) cout << "\u2534";
+  }
+  cout << "\u2518\n";
+  clsTUIUtils::resetColor();
+  cout << endl;
 }

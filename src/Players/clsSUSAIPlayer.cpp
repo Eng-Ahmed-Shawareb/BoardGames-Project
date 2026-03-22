@@ -37,7 +37,7 @@ clsMove<char> *clsSUSAIPlayer::getBestMove() const {
 }
 
 int clsSUSAIPlayer::_minMax(clsSUSBoard *currentBoard, bool isMax) const {
-  // base case
+
   char humanSymbol = (getSymbol() == 'S') ? 'U' : 'S';
   clsPlayer<char> AIPlayer("AI", getSymbol(), enPlayerType::COMPUTER);
   clsPlayer<char> humanPlayer("human", humanSymbol, enPlayerType::HUMAN);
@@ -61,7 +61,7 @@ int clsSUSAIPlayer::_minMax(clsSUSBoard *currentBoard, bool isMax) const {
     } else
       return 0;
   }
-  // transition
+
   if (isMax) {
     int maxScore = -1e5;
 
